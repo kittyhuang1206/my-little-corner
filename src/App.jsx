@@ -398,30 +398,44 @@ const FQS={en:["What is one thing that would make today feel successful?","What 
 function MusicPlayer({track,playing,loading,errMsg,muted,volume,cat,onPlay,onPrev,onNext,onMute,onVol,onCat,accent,font,l}){
   const [mini,setMini]=useState(false);
   const [showC,setShowC]=useState(false);
+  const [pos,setPos]=useState(null);
+  const rootRef=useRef(null);
+  const dragRef=useRef(null);
   const cur=MCATS.find(c=>c.id===cat)||MCATS[0];
+  const onMove=(e)=>{const d=dragRef.current;if(!d)return;let x=e.clientX-d.dx,y=e.clientY-d.dy;x=Math.max(6,Math.min(window.innerWidth-d.w-6,x));y=Math.max(6,Math.min(window.innerHeight-d.h-6,y));setPos({x,y});};
+  const endDrag=()=>{dragRef.current=null;window.removeEventListener("pointermove",onMove);window.removeEventListener("pointerup",endDrag);};
+  const startDrag=(e)=>{const el=rootRef.current;if(!el)return;const r=el.getBoundingClientRect();dragRef.current={dx:e.clientX-r.left,dy:e.clientY-r.top,w:r.width,h:r.height};window.addEventListener("pointermove",onMove);window.addEventListener("pointerup",endDrag);};
+  const W=mini?56:252;
+  const posStyle=pos?{left:pos.x,top:pos.y}:{right:14,bottom:14};
+  const ctrlBtn={background:"none",border:"none",cursor:"pointer",color:P.sub,fontSize:19,lineHeight:1,width:42,height:42,display:"flex",alignItems:"center",justifyContent:"center",borderRadius:12};
   return(
-    <div style={{position:"fixed",zIndex:300,background:P.card,border:`1px solid ${P.border}`,borderRadius:16,width:mini?48:220,boxShadow:"0 4px 22px rgba(47,52,58,.08)",overflow:"hidden",transition:"width .22s ease",right:14,bottom:14}}>
-      <div style={{padding:mini?"10px":"10px 12px",display:"flex",alignItems:"center",gap:6,borderBottom:mini?"none":`1px solid ${P.border}`}}>
-        <div style={{color:accent,flexShrink:0,fontSize:12,opacity:.8}}>♪</div>
-        {!mini&&<div style={{flex:1,minWidth:0}}>
-          <p style={{fontSize:11,fontWeight:500,color:P.sub,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",fontFamily:font.sans}}>{track.t}</p>
-          <p style={{fontSize:9.5,color:errMsg?"#C07060":loading?"#B89B72":P.muted,fontFamily:font.sans}}>{errMsg||(loading?"…":cur.icon+" "+(l==="zh"?cur.labelZh:cur.label))}</p>
-        </div>}
-        <button onClick={()=>setMini(v=>!v)} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,padding:3,display:"flex",flexShrink:0,fontSize:11}}>{mini?"↗":"↙"}</button>
+    <div ref={rootRef} style={{position:"fixed",zIndex:300,background:P.card,border:`1px solid ${P.border}`,borderRadius:18,width:W,boxShadow:"0 4px 22px rgba(47,52,58,.1)",overflow:"hidden",...posStyle}}>
+      <div style={{display:"flex",alignItems:"center",gap:6,padding:mini?"8px":"9px 10px",borderBottom:mini?"none":`1px solid ${P.border}`}}>
+        <div onPointerDown={startDrag} style={{flex:1,display:"flex",alignItems:"center",gap:7,minWidth:0,cursor:"grab",touchAction:"none"}}>
+          <span style={{color:P.muted,fontSize:14,letterSpacing:-2,userSelect:"none"}}>⠿</span>
+          {!mini&&<div style={{flex:1,minWidth:0}}>
+            <p style={{fontSize:11.5,fontWeight:500,color:P.sub,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",fontFamily:font.sans}}>{track.t}</p>
+            <p style={{fontSize:9.5,color:errMsg?"#C07060":loading?"#B89B72":P.muted,fontFamily:font.sans}}>{errMsg||(loading?"…":cur.icon+" "+(l==="zh"?cur.labelZh:cur.label))}</p>
+          </div>}
+        </div>
+        <button onClick={()=>setMini(v=>!v)} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,padding:5,fontSize:13,flexShrink:0}}>{mini?"↗":"↙"}</button>
       </div>
       {!mini&&<>
-        <div style={{padding:"8px 11px"}}>
-          <div style={{display:"flex",alignItems:"center",gap:2,marginBottom:6}}>
-            <button onClick={onPrev} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,padding:"3px 5px",fontSize:11,lineHeight:1,fontFamily:"serif"}}>⏮︎</button>
-            <button onClick={onPlay} style={{background:"none",border:"none",cursor:"pointer",color:accent,padding:"3px 7px",fontSize:15,lineHeight:1}}>{playing?"▐▐":"▶"}</button>
-            <button onClick={onNext} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,padding:"3px 5px",fontSize:11,lineHeight:1,fontFamily:"serif"}}>⏭︎</button>
-            <button onClick={onMute} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,padding:"3px 5px",fontSize:12,lineHeight:1}}>{muted?"⊘":"♪"}</button>
+        <div style={{padding:"10px 12px"}}>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,marginBottom:9}}>
+            <button onClick={onPrev} style={ctrlBtn}>⏮</button>
+            <button onClick={onPlay} style={{background:accent,border:"none",cursor:"pointer",color:"#FFFDF8",fontSize:17,width:50,height:50,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{playing?"❚❚":"▶"}</button>
+            <button onClick={onNext} style={ctrlBtn}>⏭</button>
+            <button onClick={onMute} style={ctrlBtn}>{muted?"🔇":"🔊"}</button>
           </div>
-          <input type="range" min="0" max="1" step=".05" value={volume} onChange={e=>onVol(parseFloat(e.target.value))} style={{width:"100%",accentColor:accent,height:3,cursor:"pointer",marginBottom:7}}/>
-          <button onClick={()=>setShowC(v=>!v)} style={{background:P.light,border:`1px solid ${P.border}`,borderRadius:7,padding:"3px 8px",fontSize:10,color:P.sub,cursor:"pointer",width:"100%",fontFamily:font.sans}}>{cur.icon} {l==="zh"?cur.labelZh:cur.label} ▾</button>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:9}}>
+            <span style={{fontSize:13,color:P.muted}}>🔈</span>
+            <input type="range" min="0" max="1" step=".05" value={volume} onChange={e=>onVol(parseFloat(e.target.value))} style={{flex:1,accentColor:accent,height:6,cursor:"pointer"}}/>
+          </div>
+          <button onClick={()=>setShowC(v=>!v)} style={{background:P.light,border:`1px solid ${P.border}`,borderRadius:8,padding:"6px 10px",fontSize:11,color:P.sub,cursor:"pointer",width:"100%",fontFamily:font.sans}}>{cur.icon} {l==="zh"?cur.labelZh:cur.label} ▾</button>
         </div>
-        {showC&&<div style={{padding:"4px 8px 8px",borderTop:`1px solid ${P.border}`,maxHeight:160,overflowY:"auto"}}>
-          {MCATS.map(c=><button key={c.id} onClick={()=>{onCat(c.id);setShowC(false);}} style={{display:"block",width:"100%",textAlign:"left",background:cat===c.id?P.light:"none",border:"none",borderRadius:6,padding:"4px 7px",fontSize:10.5,color:cat===c.id?P.text:P.muted,cursor:"pointer",fontFamily:font.sans}}>{c.icon} {l==="zh"?c.labelZh:c.label}</button>)}
+        {showC&&<div style={{padding:"4px 8px 8px",borderTop:`1px solid ${P.border}`,maxHeight:180,overflowY:"auto"}}>
+          {MCATS.map(c=><button key={c.id} onClick={()=>{onCat(c.id);setShowC(false);}} style={{display:"block",width:"100%",textAlign:"left",background:cat===c.id?P.light:"none",border:"none",borderRadius:7,padding:"7px 9px",fontSize:11.5,color:cat===c.id?P.text:P.muted,cursor:"pointer",fontFamily:font.sans}}>{c.icon} {l==="zh"?c.labelZh:c.label}</button>)}
         </div>}
       </>}
     </div>
@@ -568,6 +582,12 @@ export default function App(){
     @keyframes msgFade{from{opacity:0;transform:translateY(3px);}to{opacity:1;transform:translateY(0);}}
     @keyframes onbIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
     @keyframes glowP{0%,100%{box-shadow:0 0 0 0 transparent;}50%{box-shadow:0 0 20px 5px ${ss.glow};}}
+    @keyframes popIn{0%{opacity:0;transform:scale(.6) translateY(10px);}60%{transform:scale(1.06) translateY(0);}100%{opacity:1;transform:scale(1);}}
+    @keyframes rewardBounce{0%,100%{transform:translateY(0) rotate(0deg);}25%{transform:translateY(-15px) rotate(-7deg);}50%{transform:translateY(0) rotate(0deg);}75%{transform:translateY(-9px) rotate(7deg);}}
+    @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:0;}12%{opacity:1;}100%{transform:translateY(250px) rotate(420deg);opacity:0;}}
+    @keyframes confettiFallFull{0%{transform:translateY(-10vh) rotate(0deg);opacity:0;}8%{opacity:1;}100%{transform:translateY(110vh) rotate(540deg);opacity:0;}}
+    .reward-pop{animation:popIn .42s cubic-bezier(.2,.8,.3,1.2);}
+    .reward-bounce{display:inline-block;animation:rewardBounce 1.1s ease-in-out infinite;}
     *{box-sizing:border-box;margin:0;padding:0;}
     .app{min-height:100vh;background:${P.bg};font-family:${font.sans};color:${P.text};}
     .serif{font-family:${font.serif};}
@@ -695,6 +715,19 @@ export default function App(){
       <style>{css}</style>
       <audio ref={audioRef} src={track.u} loop onError={onAErr}/>
       <Particles season={season}/>
+      {showReward&&(
+        <div className="overlay" style={{background:"rgba(47,52,58,.18)",zIndex:600}} onClick={()=>setShowReward(false)}>
+          <div style={{position:"fixed",inset:0,pointerEvents:"none",overflow:"hidden",zIndex:1}}>
+            {[...Array(42)].map((_,i)=>(<div key={i} style={{position:"absolute",left:`${(i*37)%100}%`,top:"-6%",width:`${7+(i%3)*3}px`,height:`${7+(i%3)*3}px`,borderRadius:i%2?"50%":"2px",background:ss.pc[i%ss.pc.length],animation:`confettiFallFull ${2.4+(i%6)*0.4}s linear ${(i%10)*0.18}s infinite`}}/>))}
+          </div>
+          <div className="modal reward-pop" style={{textAlign:"center",position:"relative",overflow:"hidden",maxWidth:340,zIndex:2}}>
+            <div className="reward-bounce" style={{color:accent,marginTop:6,marginBottom:6}}>{renderComp(compId,accent,108,accessory)}</div>
+            <p className="serif" style={{fontSize:22,color:P.text,marginBottom:4}}>{l==="zh"?"全部完成！":"All done!"}</p>
+            <p style={{fontSize:13.5,color:P.sub,fontFamily:font.sans,fontStyle:"italic",marginBottom:10,lineHeight:1.6}}>{getMsg(compId,"complete",l)}</p>
+            <div style={{display:"inline-block",background:P.light,border:`1px solid ${P.border}`,borderRadius:50,padding:"3px 13px",fontSize:11,color:P.sub,fontFamily:font.sans}}>♥ +10 {t.friendLabel}</div>
+          </div>
+        </div>
+      )}
       {showNextDay&&(
         <div className="overlay"><div className="modal" style={{textAlign:"center"}}>
           <p className="serif" style={{fontSize:19,color:P.text,marginBottom:7}}>{t.closeTitle}</p>
