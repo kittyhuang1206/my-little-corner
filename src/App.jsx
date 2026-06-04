@@ -138,7 +138,7 @@ const T={
     seasonNames:{spring:"Spring",summer:"Summer",autumn:"Autumn",winter:"Winter"},
     fontNames:{dm:"Elegant",nunito:"Friendly",noto_serif:"Literary",kiwi:"Journal",zen:"Storybook",noto_sans:"Modern"},
     resetBtn:"Reset all data",resetConfirm:"Are you sure? This will erase everything.",
-    backupTitle:"Backup & Restore",backupDesc:"Move your data to another device: tap Export, copy the code, then paste it on the other device and tap Restore.",backupPh:"Your backup code appears here…",exportBtn:"Export",restoreBtn:"Restore",
+    backupTitle:"Backup & Restore",backupDesc:"Move your data to another device: tap Export, copy the code, then paste it on the other device and tap Restore.",backupPh:"Your backup code appears here…",exportBtn:"Export",restoreBtn:"Restore",system:"System",
     greet:(h)=>h<12?"Good morning":h<17?"Good afternoon":"Good evening",
   },
   zh:{
@@ -174,7 +174,7 @@ const T={
     seasonNames:{spring:"春天",summer:"夏天",autumn:"秋天",winter:"冬天"},
     fontNames:{dm:"優雅 Elegant",nunito:"親切 Friendly",noto_serif:"文學 Literary",kiwi:"日記 Journal",zen:"故事書 Storybook",noto_sans:"現代 Modern"},
     resetBtn:"重置所有資料",resetConfirm:"確定嗎？這將清除所有資料。",
-    backupTitle:"備份與還原",backupDesc:"把資料搬到另一台裝置：按「匯出」複製代碼，到另一台裝置貼上後按「還原」。",backupPh:"備份代碼會出現在這裡…",exportBtn:"匯出",restoreBtn:"還原",
+    backupTitle:"備份與還原",backupDesc:"把資料搬到另一台裝置：按「匯出」複製代碼，到另一台裝置貼上後按「還原」。",backupPh:"備份代碼會出現在這裡…",exportBtn:"匯出",restoreBtn:"還原",system:"系統設定",
     greet:(h)=>h<12?"早安":h<17?"午安":"晚安",
   },
 };
@@ -500,6 +500,7 @@ export default function App(){
   const [editingName,setEditingName]=useState(false);
   const [showReset,setShowReset]=useState(false);
   const [backupText,setBackupText]=useState("");
+  const [showSystem,setShowSystem]=useState(false);
   const [streak,setStreak]=useState(()=>getStreak().count||1);
   const [friendship,setFriendship]=useState(()=>getFriendship());
   const [musicCat,setMusicCat]=useState(()=>S.get("mlc_mcat","random"));
@@ -791,6 +792,16 @@ export default function App(){
               {FONTS.map(f=><button key={f.id} className={`tbtn${fontId===f.id?" on":""}`} onClick={()=>setFontId(f.id)} style={{fontFamily:f.serif,fontSize:11}}>{t.fontNames[f.id]||f.id}</button>)}
             </div>
             <button className="btn" style={{width:"100%",marginBottom:8}} onClick={()=>setShowSettings(false)}>{t.done}</button>
+          </div>
+        </div>
+      )}
+      {showSystem&&(
+        <div className="overlay" onClick={()=>setShowSystem(false)}>
+          <div className="modal" style={{maxWidth:410,maxHeight:"85vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:15}}>
+              <p className="serif" style={{fontSize:18,color:P.text}}>{t.system}</p>
+              <button onClick={()=>setShowSystem(false)} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,fontSize:18}}>✕</button>
+            </div>
             <p className="lbl" style={{marginBottom:7}}>{t.backupTitle}</p>
             <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,lineHeight:1.6,marginBottom:8}}>{t.backupDesc}</p>
             <textarea value={backupText} onChange={e=>setBackupText(e.target.value)} placeholder={t.backupPh} rows={3} style={{width:"100%",border:`1px solid ${P.border}`,borderRadius:10,padding:"8px 10px",fontFamily:font.sans,fontSize:11,color:P.sub,background:P.paper,outline:"none",resize:"none",wordBreak:"break-all",marginBottom:8}}/>
@@ -798,7 +809,8 @@ export default function App(){
               <button className="btn-o" style={{flex:1,fontSize:12}} onClick={exportData}>{t.exportBtn}</button>
               <button className="btn" style={{flex:1,fontSize:12}} onClick={importData}>{t.restoreBtn}</button>
             </div>
-            <button className="reset-btn" onClick={()=>{setShowSettings(false);setTimeout(()=>setShowReset(true),150);}}>{t.resetBtn}</button>
+            <button className="btn" style={{width:"100%",marginBottom:8}} onClick={()=>setShowSystem(false)}>{t.done}</button>
+            <button className="reset-btn" onClick={()=>{setShowSystem(false);setTimeout(()=>setShowReset(true),150);}}>{t.resetBtn}</button>
           </div>
         </div>
       )}
@@ -817,7 +829,6 @@ export default function App(){
               <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:5}}>
                 <div style={{display:"flex",gap:5,alignItems:"center"}}>
                   <div style={{background:P.light,border:`1px solid ${P.border}`,borderRadius:50,padding:"2px 8px",fontSize:10,color:P.sub,fontFamily:font.sans}}>{streak} {t.streakLabel}</div>
-                  <button className="ibtn" onClick={()=>setShowSettings(true)} style={{fontSize:14}}>⚙</button>
                 </div>
                 <div style={{display:"flex",alignItems:"center",gap:5}}>
                   <span style={{color:P.peach,fontSize:11}}>♥</span>
@@ -835,7 +846,8 @@ export default function App(){
             <div style={{display:"flex",gap:8,marginBottom:13,flexWrap:"wrap"}}>
               <button className="nbtn" onClick={()=>setShowNextDay(true)}>↻ {t.nextDay}</button>
               <button className="nbtn" onClick={()=>setShowJournal(true)}>◎ {t.journal}</button>
-              <button className="nbtn" onClick={()=>setShowSettings(true)}>⚙ {t.prefs}</button>
+              <button className="nbtn" onClick={()=>setShowSettings(true)}>✿ {t.prefs}</button>
+              <button className="nbtn" onClick={()=>setShowSystem(true)}>⚙ {t.system}</button>
             </div>
             {/* YESTERDAY */}
             {yesterdayDone.length>0&&(
