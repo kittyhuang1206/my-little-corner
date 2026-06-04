@@ -138,6 +138,7 @@ const T={
     seasonNames:{spring:"Spring",summer:"Summer",autumn:"Autumn",winter:"Winter"},
     fontNames:{dm:"Elegant",nunito:"Friendly",noto_serif:"Literary",kiwi:"Journal",zen:"Storybook",noto_sans:"Modern"},
     resetBtn:"Reset all data",resetConfirm:"Are you sure? This will erase everything.",
+    backupTitle:"Backup & Restore",backupDesc:"Move your data to another device: tap Export, copy the code, then paste it on the other device and tap Restore.",backupPh:"Your backup code appears here…",exportBtn:"Export",restoreBtn:"Restore",
     greet:(h)=>h<12?"Good morning":h<17?"Good afternoon":"Good evening",
   },
   zh:{
@@ -173,6 +174,7 @@ const T={
     seasonNames:{spring:"春天",summer:"夏天",autumn:"秋天",winter:"冬天"},
     fontNames:{dm:"優雅 Elegant",nunito:"親切 Friendly",noto_serif:"文學 Literary",kiwi:"日記 Journal",zen:"故事書 Storybook",noto_sans:"現代 Modern"},
     resetBtn:"重置所有資料",resetConfirm:"確定嗎？這將清除所有資料。",
+    backupTitle:"備份與還原",backupDesc:"把資料搬到另一台裝置：按「匯出」複製代碼，到另一台裝置貼上後按「還原」。",backupPh:"備份代碼會出現在這裡…",exportBtn:"匯出",restoreBtn:"還原",
     greet:(h)=>h<12?"早安":h<17?"午安":"晚安",
   },
 };
@@ -483,6 +485,7 @@ export default function App(){
   const [showNextDay,setShowNextDay]=useState(false);
   const [editingName,setEditingName]=useState(false);
   const [showReset,setShowReset]=useState(false);
+  const [backupText,setBackupText]=useState("");
   const [streak,setStreak]=useState(()=>getStreak().count||1);
   const [friendship,setFriendship]=useState(()=>getFriendship());
   const [musicCat,setMusicCat]=useState(()=>S.get("mlc_mcat","random"));
@@ -551,6 +554,8 @@ export default function App(){
   const handlePhoto=e=>{const file=e.target.files?.[0];if(!file)return;const r=new FileReader();r.onload=ev=>setPhoto(ev.target.result);r.readAsDataURL(file);};
   const saveName=n=>{if(n.trim()){setUserName(n.trim());S.set("mlc_name",n.trim());setEditingName(false);}};
   const doReset=()=>{try{Object.keys(localStorage).filter(k=>k.startsWith("mlc_")).forEach(k=>localStorage.removeItem(k));}catch{}setLang("");setUserName("");setCompId("cat");setOnbStep(0);setEntered(false);setTasks([]);setWin("");setFocus("");setVibe("");setPhoto("");setStreak(1);setFriendship({points:0,level:1,lastOpen:""});setShowReset(false);setShowSettings(false);};
+  const exportData=()=>{try{const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf("mlc_")===0)o[k]=localStorage.getItem(k);}const code=btoa(unescape(encodeURIComponent(JSON.stringify(o))));setBackupText(code);try{navigator.clipboard.writeText(code);}catch(e){}}catch(e){}};
+  const importData=()=>{try{const json=decodeURIComponent(escape(atob(backupText.trim())));const o=JSON.parse(json);Object.keys(o).forEach(k=>{if(k.indexOf("mlc_")===0)localStorage.setItem(k,o[k]);});location.reload();}catch(e){alert(l==="zh"?"代碼無效，請確認貼上完整的代碼。":"Invalid code — please paste the full backup code.");}};
   const friendMax=friendship.level===1?25:friendship.level===2?55:120;
   const friendBase=friendship.level===1?0:friendship.level===2?25:friendship.level===3?80:200;
   const friendPct=Math.min(100,Math.round(((friendship.points-friendBase)/friendMax)*100));
@@ -753,6 +758,13 @@ export default function App(){
               {FONTS.map(f=><button key={f.id} className={`tbtn${fontId===f.id?" on":""}`} onClick={()=>setFontId(f.id)} style={{fontFamily:f.serif,fontSize:11}}>{t.fontNames[f.id]||f.id}</button>)}
             </div>
             <button className="btn" style={{width:"100%",marginBottom:8}} onClick={()=>setShowSettings(false)}>{t.done}</button>
+            <p className="lbl" style={{marginBottom:7}}>{t.backupTitle}</p>
+            <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,lineHeight:1.6,marginBottom:8}}>{t.backupDesc}</p>
+            <textarea value={backupText} onChange={e=>setBackupText(e.target.value)} placeholder={t.backupPh} rows={3} style={{width:"100%",border:`1px solid ${P.border}`,borderRadius:10,padding:"8px 10px",fontFamily:font.sans,fontSize:11,color:P.sub,background:P.paper,outline:"none",resize:"none",wordBreak:"break-all",marginBottom:8}}/>
+            <div style={{display:"flex",gap:7,marginBottom:18}}>
+              <button className="btn-o" style={{flex:1,fontSize:12}} onClick={exportData}>{t.exportBtn}</button>
+              <button className="btn" style={{flex:1,fontSize:12}} onClick={importData}>{t.restoreBtn}</button>
+            </div>
             <button className="reset-btn" onClick={()=>{setShowSettings(false);setTimeout(()=>setShowReset(true),150);}}>{t.resetBtn}</button>
           </div>
         </div>
