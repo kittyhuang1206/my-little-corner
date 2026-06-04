@@ -412,7 +412,7 @@ function MusicPlayer({track,playing,loading,errMsg,muted,volume,cat,onPlay,onPre
     <div ref={rootRef} style={{position:"fixed",zIndex:300,background:P.card,border:`1px solid ${P.border}`,borderRadius:18,width:W,boxShadow:"0 4px 22px rgba(47,52,58,.1)",overflow:"hidden",...posStyle}}>
       <div style={{display:"flex",alignItems:"center",gap:6,padding:mini?"8px":"9px 10px",borderBottom:mini?"none":`1px solid ${P.border}`}}>
         <div onPointerDown={startDrag} style={{flex:1,display:"flex",alignItems:"center",gap:7,minWidth:0,cursor:"grab",touchAction:"none"}}>
-          <span style={{color:P.muted,fontSize:14,letterSpacing:-2,userSelect:"none"}}>⠿</span>
+          {mini?<svg width="22" height="22" viewBox="0 0 24 24" style={{color:accent}}><path d="M9 18V6l10-2v10" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/><circle cx="6.5" cy="18" r="2.6" fill="currentColor"/><circle cx="16.5" cy="16" r="2.6" fill="currentColor"/></svg>:<span style={{color:P.muted,fontSize:14,letterSpacing:-2,userSelect:"none"}}>⠿</span>}
           {!mini&&<div style={{flex:1,minWidth:0}}>
             <p style={{fontSize:11.5,fontWeight:500,color:P.sub,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",fontFamily:font.sans}}>{track.t}</p>
             <p style={{fontSize:9.5,color:errMsg?"#C07060":loading?"#B89B72":P.muted,fontFamily:font.sans}}>{errMsg||(loading?"…":cur.icon+" "+(l==="zh"?cur.labelZh:cur.label))}</p>
@@ -423,13 +423,13 @@ function MusicPlayer({track,playing,loading,errMsg,muted,volume,cat,onPlay,onPre
       {!mini&&<>
         <div style={{padding:"10px 12px"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,marginBottom:9}}>
-            <button onClick={onPrev} style={ctrlBtn}>⏮</button>
-            <button onClick={onPlay} style={{background:accent,border:"none",cursor:"pointer",color:"#FFFDF8",fontSize:17,width:50,height:50,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{playing?"❚❚":"▶"}</button>
-            <button onClick={onNext} style={ctrlBtn}>⏭</button>
-            <button onClick={onMute} style={ctrlBtn}>{muted?"🔇":"🔊"}</button>
+            <button onClick={onPrev} style={ctrlBtn}><svg width="19" height="19" viewBox="0 0 24 24"><path d="M7.5 5v14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><path d="M19 5.5L9.5 12 19 18.5z" fill="currentColor"/></svg></button>
+            <button onClick={onPlay} style={{background:accent,border:"none",cursor:"pointer",color:"#FFFDF8",width:40,height:40,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{playing?<svg width="15" height="15" viewBox="0 0 24 24"><rect x="6" y="5" width="4.2" height="14" rx="1.3" fill="currentColor"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.3" fill="currentColor"/></svg>:<svg width="15" height="15" viewBox="0 0 24 24" style={{marginLeft:"2px"}}><path d="M8 5.2v13.6L19 12z" fill="currentColor"/></svg>}</button>
+            <button onClick={onNext} style={ctrlBtn}><svg width="19" height="19" viewBox="0 0 24 24"><path d="M16.5 5v14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/><path d="M5 5.5L14.5 12 5 18.5z" fill="currentColor"/></svg></button>
+            <button onClick={onMute} style={ctrlBtn}>{muted?<svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z" fill="currentColor"/><path d="M16 9.5l4 5M20 9.5l-4 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>:<svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z" fill="currentColor"/><path d="M15.5 9.2a4 4 0 010 5.6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>}</button>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:9}}>
-            <span style={{fontSize:13,color:P.muted}}>🔈</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" style={{color:P.muted,flexShrink:0}}><path d="M4 9.5v5h3.5L12 18V6L7.5 9.5H4z" fill="currentColor"/></svg>
             <input type="range" min="0" max="1" step=".05" value={volume} onChange={e=>onVol(parseFloat(e.target.value))} style={{flex:1,accentColor:accent,height:6,cursor:"pointer"}}/>
           </div>
           <button onClick={()=>setShowC(v=>!v)} style={{background:P.light,border:`1px solid ${P.border}`,borderRadius:8,padding:"6px 10px",fontSize:11,color:P.sub,cursor:"pointer",width:"100%",fontFamily:font.sans}}>{cur.icon} {l==="zh"?cur.labelZh:cur.label} ▾</button>
