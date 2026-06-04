@@ -598,7 +598,7 @@ export default function App(){
           <div style={{marginBottom:18,display:"flex",justifyContent:"center"}}><div className="pet float" style={{color:P.sage}}>{renderComp("cat",P.sage,64)}</div></div>
           <h1 style={{fontFamily:font.serif,fontSize:27,fontWeight:500,color:P.text,marginBottom:4}}>My Little Corner</h1>
           <p style={{fontFamily:font.serif,fontSize:15,color:P.muted,marginBottom:5}}>我的小角落</p>
-          <p style={{fontSize:12.5,color:P.muted,fontFamily:font.sans,marginBottom:24,lineHeight:1.7}}>A cozy place to be calm and productive — your gentle daily to-do list.<br/>讓你舒服又有效率的小角落 · 溫柔的每日待辦清單</p>
+          <p style={{fontSize:12.5,color:P.muted,fontFamily:font.sans,marginBottom:24,lineHeight:1.7}}>A cozy place to be calm and productive<br/>— your gentle daily to-do list.<br/>一個可愛又有效率的小角落<br/>幫助你完成每日目標</p>
           <p style={{fontSize:13,color:P.sub,fontFamily:font.sans,marginBottom:12,fontWeight:500}}>Choose your language / 選擇語言</p>
           <div style={{display:"flex",gap:10}}>
             {[["en","English"],["zh","繁體中文"]].map(([lid,label])=>(
