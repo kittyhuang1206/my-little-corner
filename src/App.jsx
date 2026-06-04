@@ -48,9 +48,11 @@ const TRACKS={
     {t:"Classical Piano Waltz",u:"/audio/piano-waltz.mp3"},
     {t:"Happy String Quartet",u:"/audio/string-quartet.mp3"},
     {t:"Piano & Violin",u:"/audio/piano-violin.mp3"},
+    {t:"Quiet Keys",u:"/audio/quiet-keys.mp3"},
   ],
   rainy:[
     {t:"Guitar in the Rain",u:"/audio/guitar-rain.mp3"},
+    {t:"Cozy Rainfall",u:"/audio/cozy-rainfall.mp3"},
   ],
   bookstore:[
     {t:"Acoustic Afternoon",u:"/audio/acoustic-1.mp3"},
@@ -58,10 +60,21 @@ const TRACKS={
   ],
   evening:[
     {t:"Warm Guitars by the Fire",u:"/audio/fireplace-guitars.mp3"},
+    {t:"Sunset Lofi",u:"/audio/lofi-sunset.mp3"},
+    {t:"Night Circuit",u:"/audio/night-circuit.mp3"},
   ],
   forest:[
     {t:"Forest Fairy",u:"/audio/forest-fairy.mp3"},
     {t:"Enchanted Forest",u:"/audio/enchanted-forest.mp3"},
+  ],
+  calm:[
+    {t:"Whispers on the Horizon",u:"/audio/whispers-horizon.mp3"},
+    {t:"Sun Beneath a Song",u:"/audio/sun-beneath.mp3"},
+    {t:"Soft Daydream",u:"/audio/soft-daydream.mp3"},
+    {t:"Calm & Soft",u:"/audio/calm-soft.mp3"},
+    {t:"Gentle Drift",u:"/audio/gentle-drift.mp3"},
+    {t:"Little Dolphin",u:"/audio/little-dolphin.mp3"},
+    {t:"Quiet Hours",u:"/audio/quiet-hours.mp3"},
   ],
 };
 const ALL_T=Object.values(TRACKS).flat();
@@ -72,6 +85,7 @@ const MCATS=[
   {id:"rainy",label:"Rainy Study",labelZh:"雨天讀書",icon:"~"},
   {id:"bookstore",label:"Acoustic Guitar",labelZh:"木吉他",icon:"♬"},
   {id:"evening",label:"Evening Lofi",labelZh:"夜晚氛圍",icon:"◌"},
+  {id:"calm",label:"Calm & Dreamy",labelZh:"放鬆療癒",icon:"☁"},
   {id:"forest",label:"Forest Morning",labelZh:"森林早晨",icon:"✿"},
 ];
 const pickT=(cat,ex)=>{const p=(cat==="random"?ALL_T:TRACKS[cat]||ALL_T).filter(t=>t!==ex);return p[Math.floor(Math.random()*p.length)]||ALL_T[0];};
@@ -456,8 +470,8 @@ export default function App(){
   const [showReset,setShowReset]=useState(false);
   const [streak,setStreak]=useState(()=>getStreak().count||1);
   const [friendship,setFriendship]=useState(()=>getFriendship());
-  const [musicCat,setMusicCat]=useState(()=>S.get("mlc_mcat","cafe"));
-  const [track,setTrack]=useState(()=>pickT(S.get("mlc_mcat","cafe")));
+  const [musicCat,setMusicCat]=useState(()=>S.get("mlc_mcat","random"));
+  const [track,setTrack]=useState(()=>pickT(S.get("mlc_mcat","random")));
   const [playing,setPlaying]=useState(false);
   const [audioLoading,setAudioLoading]=useState(false);
   const [audioErr,setAudioErr]=useState("");
