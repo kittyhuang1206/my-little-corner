@@ -36,29 +36,32 @@ const ACCESSORIES={
 const getAccessory=(cid,pts)=>{const list=ACCESSORIES[cid]||ACCESSORIES.cat;let best=list[0];for(const a of list){if(pts>=a.pts)best=a;}return best;};
 const TRACKS={
   cafe:[
-    {t:"Warm Espresso",u:"https://cdn.pixabay.com/audio/2022/08/02/audio_884fe92c21.mp3"},
-    {t:"Corner Table",u:"https://cdn.pixabay.com/audio/2022/10/25/audio_98ce5571d9.mp3"},
+    {t:"Coffee with Jazz",u:"/audio/coffee-jazz.mp3"},
+    {t:"Morning Coffee",u:"/audio/morning-coffee.mp3"},
+    {t:"Coffee Time",u:"/audio/coffee-time.mp3"},
+    {t:"Bossa Nova Cafe",u:"/audio/bossa-nova.mp3"},
   ],
   piano:[
-    {t:"Warm Morning Keys",u:"https://cdn.pixabay.com/audio/2022/10/30/audio_0257b46b09.mp3"},
-    {t:"Gentle Thoughts",u:"https://cdn.pixabay.com/audio/2022/11/22/audio_febc508520.mp3"},
-    {t:"Candlelight",u:"https://cdn.pixabay.com/audio/2022/08/23/audio_d16d6c3b89.mp3"},
+    {t:"Emotional Piano",u:"/audio/emotional-piano.mp3"},
+    {t:"Mountain Piano",u:"/audio/mountain-piano.mp3"},
+    {t:"Hope",u:"/audio/hope-piano.mp3"},
+    {t:"Classical Piano Waltz",u:"/audio/piano-waltz.mp3"},
+    {t:"Happy String Quartet",u:"/audio/string-quartet.mp3"},
+    {t:"Piano & Violin",u:"/audio/piano-violin.mp3"},
   ],
   rainy:[
-    {t:"Rain on Glass",u:"https://cdn.pixabay.com/audio/2022/03/09/audio_c2b8fd2d6d.mp3"},
-    {t:"Soft Rain",u:"https://cdn.pixabay.com/audio/2022/05/13/audio_97fa6c9d36.mp3"},
+    {t:"Guitar in the Rain",u:"/audio/guitar-rain.mp3"},
   ],
   bookstore:[
-    {t:"Late Night Keys",u:"https://cdn.pixabay.com/audio/2022/09/06/audio_d16e6b01b9.mp3"},
-    {t:"Sunday Morning",u:"https://cdn.pixabay.com/audio/2022/01/20/audio_d16a0a9fce.mp3"},
+    {t:"Acoustic Afternoon",u:"/audio/acoustic-1.mp3"},
+    {t:"Guitar Strolls",u:"/audio/acoustic-2.mp3"},
   ],
   evening:[
-    {t:"Night Owl",u:"https://cdn.pixabay.com/audio/2024/09/30/audio_9a87694f04.mp3"},
-    {t:"Dusk",u:"https://cdn.pixabay.com/audio/2023/09/04/audio_168e38c08f.mp3"},
+    {t:"Warm Guitars by the Fire",u:"/audio/fireplace-guitars.mp3"},
   ],
   forest:[
-    {t:"Forest Morning",u:"https://cdn.pixabay.com/audio/2022/03/10/audio_dcf36c2e8f.mp3"},
-    {t:"Bird Song",u:"https://cdn.pixabay.com/audio/2021/10/19/audio_0b38d0fcca.mp3"},
+    {t:"Forest Fairy",u:"/audio/forest-fairy.mp3"},
+    {t:"Enchanted Forest",u:"/audio/enchanted-forest.mp3"},
   ],
 };
 const ALL_T=Object.values(TRACKS).flat();
@@ -67,7 +70,7 @@ const MCATS=[
   {id:"cafe",label:"Cozy Cafe",labelZh:"溫馨咖啡廳",icon:"☕"},
   {id:"piano",label:"Soft Piano",labelZh:"輕柔鋼琴",icon:"♪"},
   {id:"rainy",label:"Rainy Study",labelZh:"雨天讀書",icon:"~"},
-  {id:"bookstore",label:"Bookstore Jazz",labelZh:"書店爵士",icon:"♫"},
+  {id:"bookstore",label:"Acoustic Guitar",labelZh:"木吉他",icon:"♬"},
   {id:"evening",label:"Evening Lofi",labelZh:"夜晚氛圍",icon:"◌"},
   {id:"forest",label:"Forest Morning",labelZh:"森林早晨",icon:"✿"},
 ];
@@ -453,8 +456,8 @@ export default function App(){
   const [showReset,setShowReset]=useState(false);
   const [streak,setStreak]=useState(()=>getStreak().count||1);
   const [friendship,setFriendship]=useState(()=>getFriendship());
-  const [musicCat,setMusicCat]=useState(()=>S.get("mlc_mcat","piano"));
-  const [track,setTrack]=useState(()=>pickT(S.get("mlc_mcat","piano")));
+  const [musicCat,setMusicCat]=useState(()=>S.get("mlc_mcat","cafe"));
+  const [track,setTrack]=useState(()=>pickT(S.get("mlc_mcat","cafe")));
   const [playing,setPlaying]=useState(false);
   const [audioLoading,setAudioLoading]=useState(false);
   const [audioErr,setAudioErr]=useState("");
@@ -656,7 +659,7 @@ export default function App(){
   return(
     <div style={{background:P.bg,minHeight:"100vh"}}>
       <style>{css}</style>
-      <audio ref={audioRef} src={track.u} loop onError={onAErr} crossOrigin="anonymous"/>
+      <audio ref={audioRef} src={track.u} loop onError={onAErr}/>
       <Particles season={season}/>
       {showNextDay&&(
         <div className="overlay"><div className="modal" style={{textAlign:"center"}}>
