@@ -233,7 +233,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <path d="M45 48 Q56 44 54 34" stroke="#D4B890" strokeWidth="5" strokeLinecap="round" fill="none"/>
         <ellipse cx="21" cy="54" rx="6" ry="4" fill="#E8D8C0"/>
         <ellipse cx="41" cy="54" rx="6" ry="4" fill="#E8D8C0"/>
-        {accessory==="🎀"&&<ellipse cx="31" cy="36" rx="10" ry="4" fill="#E8A0B8" opacity=".7"/>}
+        {accessory==="🎀"&&<g><path d="M31 37 Q21 31 21 37 Q21 43 31 37Z" fill="#E89BB5"/><path d="M31 37 Q41 31 41 37 Q41 43 31 37Z" fill="#E89BB5"/><path d="M29 38 L26 43" stroke="#E89BB5" strokeWidth="2" strokeLinecap="round"/><path d="M33 38 L36 43" stroke="#E89BB5" strokeWidth="2" strokeLinecap="round"/><circle cx="31" cy="37" r="2.4" fill="#D98AA6"/></g>}
         {accessory==="🎒"&&<rect x="37" y="32" width="14" height="18" rx="4" fill="#7888A8" opacity=".6"/>}
       </svg>
     ),
