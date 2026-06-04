@@ -138,7 +138,7 @@ const T={
     seasonNames:{spring:"Spring",summer:"Summer",autumn:"Autumn",winter:"Winter"},
     fontNames:{dm:"Elegant",nunito:"Friendly",noto_serif:"Literary",kiwi:"Journal",zen:"Storybook",noto_sans:"Modern"},
     resetBtn:"Reset all data",resetConfirm:"Are you sure? This will erase everything.",
-    backupTitle:"Backup & Restore",backupDesc:"Move your data to another device: tap Export, copy the code, then paste it on the other device and tap Restore.",backupPh:"Your backup code appears here…",exportBtn:"Export",restoreBtn:"Restore",system:"System",
+    backupTitle:"Backup & Restore",backupDesc:"Move your data to another device: tap Export, copy the code, then paste it on the other device and tap Restore.",backupPh:"Your backup code appears here…",exportBtn:"Export",restoreBtn:"Restore",system:"System",wardrobe:"Wardrobe",wardrobeSub:"Tap an unlocked item to wear it.",noneLabel:"None",
     greet:(h)=>h<12?"Good morning":h<17?"Good afternoon":"Good evening",
   },
   zh:{
@@ -174,7 +174,7 @@ const T={
     seasonNames:{spring:"春天",summer:"夏天",autumn:"秋天",winter:"冬天"},
     fontNames:{dm:"優雅 Elegant",nunito:"親切 Friendly",noto_serif:"文學 Literary",kiwi:"日記 Journal",zen:"故事書 Storybook",noto_sans:"現代 Modern"},
     resetBtn:"重置所有資料",resetConfirm:"確定嗎？這將清除所有資料。",
-    backupTitle:"備份與還原",backupDesc:"把資料搬到另一台裝置：按「匯出」複製代碼，到另一台裝置貼上後按「還原」。",backupPh:"備份代碼會出現在這裡…",exportBtn:"匯出",restoreBtn:"還原",system:"系統設定",
+    backupTitle:"備份與還原",backupDesc:"把資料搬到另一台裝置：按「匯出」複製代碼，到另一台裝置貼上後按「還原」。",backupPh:"備份代碼會出現在這裡…",exportBtn:"匯出",restoreBtn:"還原",system:"系統設定",wardrobe:"裝扮衣櫥",wardrobeSub:"點一下已解鎖的配件就能換上。",noneLabel:"不戴",
     greet:(h)=>h<12?"早安":h<17?"午安":"晚安",
   },
 };
@@ -191,13 +191,6 @@ function renderComp(id,accent,size=60,accessory=""){
   const body={
     cat:(
       <svg width={s} height={s} viewBox="0 0 62 62" fill="none">
-        {accessory==="🌸"&&<ellipse cx="31" cy="7" rx="14" ry="4" fill="#F4B8CC" opacity=".75"/>}
-        {accessory==="🌸"&&<ellipse cx="23" cy="7" rx="3" ry="3" fill="#F090B0" opacity=".6"/>}
-        {accessory==="🌸"&&<ellipse cx="31" cy="5" rx="3" ry="3" fill="#F8C0D0" opacity=".7"/>}
-        {accessory==="🌸"&&<ellipse cx="39" cy="7" rx="3" ry="3" fill="#F090B0" opacity=".6"/>}
-        {accessory==="🎩"&&<rect x="20" y="4" width="22" height="9" rx="2" fill="#3A2818" opacity=".85"/>}
-        {accessory==="🎩"&&<rect x="16" y="11" width="30" height="3" rx="1.5" fill="#3A2818" opacity=".7"/>}
-        {accessory==="🧣"&&<path d="M16 38 Q31 44 46 38" stroke="#E8906A" strokeWidth="5" strokeLinecap="round" fill="none" opacity=".6"/>}
         <ellipse cx="31" cy="42" rx="15" ry="13" fill="#E8DDD0"/>
         <ellipse cx="31" cy="24" rx="14" ry="13" fill="#EDE4D8"/>
         <polygon points="18,16 15,7 23,14" fill="#EDE4D8"/>
@@ -215,12 +208,17 @@ function renderComp(id,accent,size=60,accessory=""){
         <path d="M46 46 Q55 41 53 32" stroke="#D8C4B0" strokeWidth="4" strokeLinecap="round" fill="none"/>
         <ellipse cx="22" cy="54" rx="5.5" ry="3.5" fill="#E8DDD0"/>
         <ellipse cx="40" cy="54" rx="5.5" ry="3.5" fill="#E8DDD0"/>
+        {accessory==="🌸"&&<ellipse cx="31" cy="7" rx="14" ry="4" fill="#F4B8CC" opacity=".75"/>}
+        {accessory==="🌸"&&<ellipse cx="23" cy="7" rx="3" ry="3" fill="#F090B0" opacity=".6"/>}
+        {accessory==="🌸"&&<ellipse cx="31" cy="5" rx="3" ry="3" fill="#F8C0D0" opacity=".7"/>}
+        {accessory==="🌸"&&<ellipse cx="39" cy="7" rx="3" ry="3" fill="#F090B0" opacity=".6"/>}
+        {accessory==="🎩"&&<rect x="20" y="4" width="22" height="9" rx="2" fill="#3A2818" opacity=".85"/>}
+        {accessory==="🎩"&&<rect x="16" y="11" width="30" height="3" rx="1.5" fill="#3A2818" opacity=".7"/>}
+        {accessory==="🧣"&&<path d="M16 38 Q31 44 46 38" stroke="#E8906A" strokeWidth="5" strokeLinecap="round" fill="none" opacity=".6"/>}
       </svg>
     ),
     dog:(
       <svg width={s} height={s} viewBox="0 0 62 62" fill="none">
-        {accessory==="🎀"&&<ellipse cx="31" cy="36" rx="10" ry="4" fill="#E8A0B8" opacity=".7"/>}
-        {accessory==="🎒"&&<rect x="37" y="32" width="14" height="18" rx="4" fill="#7888A8" opacity=".6"/>}
         <ellipse cx="31" cy="43" rx="16" ry="12" fill="#E8D8C0"/>
         <ellipse cx="31" cy="25" rx="15" ry="14" fill="#DEC8A8"/>
         <ellipse cx="14" cy="22" rx="6" ry="10" fill="#D4B890" transform="rotate(15,14,22)"/>
@@ -235,13 +233,12 @@ function renderComp(id,accent,size=60,accessory=""){
         <path d="M45 48 Q56 44 54 34" stroke="#D4B890" strokeWidth="5" strokeLinecap="round" fill="none"/>
         <ellipse cx="21" cy="54" rx="6" ry="4" fill="#E8D8C0"/>
         <ellipse cx="41" cy="54" rx="6" ry="4" fill="#E8D8C0"/>
+        {accessory==="🎀"&&<ellipse cx="31" cy="36" rx="10" ry="4" fill="#E8A0B8" opacity=".7"/>}
+        {accessory==="🎒"&&<rect x="37" y="32" width="14" height="18" rx="4" fill="#7888A8" opacity=".6"/>}
       </svg>
     ),
     bunny:(
       <svg width={s} height={s} viewBox="0 0 62 62" fill="none">
-        {accessory==="🌼"&&<circle cx="31" cy="6" r="6" fill="#F8E060" opacity=".8"/>}
-        {accessory==="🌼"&&<circle cx="31" cy="6" r="3" fill="#F0B040" opacity=".7"/>}
-        {accessory==="🎀"&&<ellipse cx="31" cy="8" rx="10" ry="4" fill="#E8A0C0" opacity=".75"/>}
         <ellipse cx="31" cy="43" rx="14" ry="12" fill="#EDE8E0"/>
         <ellipse cx="31" cy="27" rx="13" ry="12" fill="#F0EBE3"/>
         <ellipse cx="22" cy="10" rx="5" ry="12" fill="#EDE8E0"/>
@@ -256,11 +253,13 @@ function renderComp(id,accent,size=60,accessory=""){
         <path d="M29 32 Q31 33.5 33 32" stroke="#D4A8A0" strokeWidth="1.1" strokeLinecap="round" fill="none"/>
         <ellipse cx="22" cy="54" rx="5" ry="3" fill="#EDE8E0"/>
         <ellipse cx="40" cy="54" rx="5" ry="3" fill="#EDE8E0"/>
+        {accessory==="🌼"&&<circle cx="31" cy="6" r="6" fill="#F8E060" opacity=".8"/>}
+        {accessory==="🌼"&&<circle cx="31" cy="6" r="3" fill="#F0B040" opacity=".7"/>}
+        {accessory==="🎀"&&<ellipse cx="31" cy="8" rx="10" ry="4" fill="#E8A0C0" opacity=".75"/>}
       </svg>
     ),
     fox:(
       <svg width={s} height={s} viewBox="0 0 62 62" fill="none">
-        {accessory==="🏮"&&<ellipse cx="48" cy="18" rx="7" ry="9" fill="#E86040" opacity=".55"/>}
         <ellipse cx="31" cy="42" rx="15" ry="12" fill="#E8C8A0"/>
         <ellipse cx="31" cy="25" rx="14" ry="13" fill="#D4905A"/>
         <polygon points="17,15 12,4 24,14" fill="#D4905A"/>
@@ -277,12 +276,11 @@ function renderComp(id,accent,size=60,accessory=""){
         <path d="M44 46 Q53 42 52 34" stroke="#D4905A" strokeWidth="4.5" strokeLinecap="round" fill="none"/>
         <ellipse cx="22" cy="54" rx="5" ry="3.5" fill="#E8C8A0"/>
         <ellipse cx="40" cy="54" rx="5" ry="3.5" fill="#E8C8A0"/>
+        {accessory==="🏮"&&<ellipse cx="48" cy="18" rx="7" ry="9" fill="#E86040" opacity=".55"/>}
       </svg>
     ),
     bear:(
       <svg width={s} height={s} viewBox="0 0 62 62" fill="none">
-        {accessory==="☕"&&<rect x="40" y="26" width="16" height="18" rx="3" fill="#C8A070" opacity=".65"/>}
-        {accessory==="🍯"&&<ellipse cx="47" cy="32" rx="8" ry="10" fill="#E8C050" opacity=".55"/>}
         <ellipse cx="31" cy="44" rx="16" ry="13" fill="#D8C8B0"/>
         <ellipse cx="31" cy="26" rx="16" ry="15" fill="#C8B8A0"/>
         <circle cx="17" cy="14" r="7" fill="#C8B8A0"/>
@@ -298,24 +296,26 @@ function renderComp(id,accent,size=60,accessory=""){
         <path d="M28 33 Q31 35 34 33" stroke="#A08870" strokeWidth="1.3" strokeLinecap="round" fill="none"/>
         <ellipse cx="20" cy="55" rx="6" ry="4" fill="#D8C8B0"/>
         <ellipse cx="42" cy="55" rx="6" ry="4" fill="#D8C8B0"/>
+        {accessory==="☕"&&<rect x="40" y="26" width="16" height="18" rx="3" fill="#C8A070" opacity=".65"/>}
+        {accessory==="🍯"&&<ellipse cx="47" cy="32" rx="8" ry="10" fill="#E8C050" opacity=".55"/>}
       </svg>
     ),
     plant:(
       <svg width={s} height={s} viewBox="0 0 62 62" fill="none">
-        {accessory==="🦋"&&<path d="M40 14 Q50 8 52 18 Q50 22 40 18Z" fill="#A0C8E8" opacity=".6"/>}
-        {accessory==="💧"&&<ellipse cx="50" cy="18" rx="4" ry="6" fill="#A8D8F0" opacity=".7"/>}
         <ellipse cx="31" cy="50" rx="9" ry="6" fill="#C4A870"/>
         <rect x="28.5" y="28" width="5" height="22" rx="2.5" fill="#8CAA78"/>
         <ellipse cx="31" cy="28" rx="12" ry="14" fill={accent}/>
         <ellipse cx="22" cy="34" rx="8" ry="10" fill={accent} opacity=".7" transform="rotate(-20,22,34)"/>
         <ellipse cx="40" cy="34" rx="8" ry="10" fill={accent} opacity=".7" transform="rotate(20,40,34)"/>
         <ellipse cx="31" cy="17" rx="7" ry="9" fill={accent} opacity=".85"/>
+        {accessory==="🦋"&&<path d="M40 14 Q50 8 52 18 Q50 22 40 18Z" fill="#A0C8E8" opacity=".6"/>}
+        {accessory==="💧"&&<ellipse cx="50" cy="18" rx="4" ry="6" fill="#A8D8F0" opacity=".7"/>}
       </svg>
     ),
   };
   return body[id]||body.cat;
 }
-function RoomScene({season,friendLevel,accent,compId,compAnim,compMsg,accessory,font}){
+function RoomScene({season,friendLevel,accent,compId,compAnim,compMsg,accessory,font,onPetClick}){
   const wallColor={spring:"#F7F0F2",summer:"#F7F0E8",autumn:"#F2ECE4",winter:"#EEEEF6"}[season];
   const floorColor={spring:"#EAE2D6",summer:"#EAE0D2",autumn:"#E2D6C6",winter:"#DEE0E8"}[season];
   const showPoster=friendLevel>=2, showRug=friendLevel>=3, showFairy=friendLevel>=4;
@@ -352,7 +352,7 @@ function RoomScene({season,friendLevel,accent,compId,compAnim,compMsg,accessory,
       {seasonDesk}
       <div style={{position:"absolute",bottom:44,right:16,transform:"scale(.45)",transformOrigin:"bottom right"}}>{renderComp("plant",accent,60)}</div>
       <div style={{position:"absolute",bottom:38,left:"50%",transform:"translateX(-50%)",display:"flex",flexDirection:"column",alignItems:"center",gap:2}}>
-        <div className={`pet ${compAnim}`} style={{color:accent,filter:"drop-shadow(0 2px 4px rgba(0,0,0,.07))"}}>{renderComp(compId,accent,56,accessory)}</div>
+        <div onClick={onPetClick} className={`pet ${compAnim}`} style={{color:accent,filter:"drop-shadow(0 2px 4px rgba(0,0,0,.07))",cursor:"pointer"}}>{renderComp(compId,accent,56,accessory)}</div>
         <div style={{background:"rgba(255,253,248,.9)",borderRadius:10,padding:"4px 11px",maxWidth:185,border:`1px solid ${P.border}`}}>
           <p key={compMsg} className="comp-msg" style={{fontSize:11,color:P.sub,fontStyle:"italic",fontFamily:font.sans,lineHeight:1.45,textAlign:"center"}}>"{compMsg}"</p>
         </div>
@@ -501,6 +501,8 @@ export default function App(){
   const [showReset,setShowReset]=useState(false);
   const [backupText,setBackupText]=useState("");
   const [showSystem,setShowSystem]=useState(false);
+  const [showWardrobe,setShowWardrobe]=useState(false);
+  const [chosenAcc,setChosenAcc]=useState(()=>S.get("mlc_acc","auto"));
   const [streak,setStreak]=useState(()=>getStreak().count||1);
   const [friendship,setFriendship]=useState(()=>getFriendship());
   const [musicCat,setMusicCat]=useState(()=>S.get("mlc_mcat","random"));
@@ -523,7 +525,7 @@ export default function App(){
   const dateStr=new Date().toLocaleDateString(l==="zh"?"zh-TW":"en-US",{weekday:"long",month:"long",day:"numeric"});
   const [quote]=useState(()=>{const q=QUOTES[l]||QUOTES.en;return q[Math.floor(Math.random()*q.length)];});
   const [focusQ]=useState(()=>{const q=FQS[l]||FQS.en;return q[Math.floor(Math.random()*q.length)];});
-  const accessory=useMemo(()=>getAccessory(compId,friendship.points).emoji,[compId,friendship.points]);
+  const accessory=useMemo(()=>{const list=ACCESSORIES[compId]||ACCESSORIES.cat;const unlocked=list.filter(a=>friendship.points>=a.pts);if(chosenAcc==="none")return "";if(chosenAcc!=="auto"&&unlocked.some(a=>a.emoji===chosenAcc))return chosenAcc;return getAccessory(compId,friendship.points).emoji;},[compId,friendship.points,chosenAcc]);
   const yesterday=useMemo(()=>{const h=getHistory();return h[dAgo(1)]||null;},[]);
   const yesterdayDone=useMemo(()=>yesterday?(yesterday.tasks||[]).filter(x=>x.done):[],[yesterday]);
   const companions=["cat","dog","bunny","fox","bear","plant"];
@@ -542,6 +544,7 @@ export default function App(){
   useEffect(()=>{S.set("mlc_font",fontId);},[fontId]);
   useEffect(()=>{S.set("mlc_season",season);},[season]);
   useEffect(()=>{S.set("mlc_companion",compId);},[compId]);
+  useEffect(()=>{S.set("mlc_acc",chosenAcc);},[chosenAcc]);
   useEffect(()=>{S.set("mlc_mcat",musicCat);},[musicCat]);
   useEffect(()=>{let el=document.getElementById("mlc-font");if(!el){el=document.createElement("link");el.id="mlc-font";el.rel="stylesheet";document.head.appendChild(el);}el.href=font.url;},[font]);
   useEffect(()=>{if(audioRef.current)audioRef.current.volume=muted?0:volume;},[volume,muted]);
@@ -814,12 +817,36 @@ export default function App(){
           </div>
         </div>
       )}
+      {showWardrobe&&(
+        <div className="overlay" onClick={()=>setShowWardrobe(false)}>
+          <div className="modal" style={{maxWidth:380}} onClick={e=>e.stopPropagation()}>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
+              <p className="serif" style={{fontSize:18,color:P.text}}>{t.wardrobe}</p>
+              <button onClick={()=>setShowWardrobe(false)} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,fontSize:18}}>✕</button>
+            </div>
+            <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,marginBottom:14,lineHeight:1.6}}>{t.wardrobeSub} · ♥ {friendship.points} {l==="zh"?"點":"pts"}</p>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
+              {(ACCESSORIES[compId]||ACCESSORIES.cat).map((a,idx)=>{
+                const isNone=idx===0;
+                const unlocked=friendship.points>=a.pts;
+                const worn=isNone?(accessory===""):(accessory===a.emoji);
+                return(
+                  <button key={idx} disabled={!unlocked} onClick={()=>setChosenAcc(isNone?"none":a.emoji)} style={{border:`1.5px solid ${worn?accent:P.border}`,background:worn?P.light:"transparent",borderRadius:12,padding:"10px 6px",cursor:unlocked?"pointer":"default",opacity:unlocked?1:.45,display:"flex",flexDirection:"column",alignItems:"center",gap:4}}>
+                    <span style={{fontSize:22,lineHeight:1}}>{isNone?"—":a.emoji}</span>
+                    <span style={{fontSize:9.5,color:P.sub,fontFamily:font.sans,textAlign:"center"}}>{unlocked?(isNone?t.noneLabel:a.name):("🔒 "+a.pts)}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
       {showJournal&&<JournalModal onClose={()=>setShowJournal(false)} font={font} accent={accent} t={t} l={l}/>}
       <div className="app" style={{position:"relative",zIndex:2}}>
         <div style={{maxWidth:530,margin:"0 auto",padding:"0 0 90px"}}>
           {/* ROOM */}
           <div className={allDone?"glw":""} style={{borderRadius:18,overflow:"hidden",boxShadow:"0 4px 20px rgba(47,52,58,.07)"}}>
-            <RoomScene season={season} friendLevel={friendship.level} accent={accent} compId={compId} compAnim={compAnim} compMsg={compMsg} accessory={accessory} font={font}/>
+            <RoomScene season={season} friendLevel={friendship.level} accent={accent} compId={compId} compAnim={compAnim} compMsg={compMsg} accessory={accessory} font={font} onPetClick={()=>setShowWardrobe(true)}/>
             <div style={{background:P.card,borderTop:`1px solid ${P.border}`,padding:"11px 17px",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
               <div>
                 <p style={{fontSize:10,fontWeight:600,letterSpacing:1.3,textTransform:"uppercase",color:P.muted,fontFamily:font.sans,marginBottom:1}}>{timeName}, {name}</p>
