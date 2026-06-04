@@ -46,9 +46,9 @@ const TRACKS={
     {t:"Mountain Piano",u:"/audio/mountain-piano.mp3"},
     {t:"Hope",u:"/audio/hope-piano.mp3"},
     {t:"Classical Piano Waltz",u:"/audio/piano-waltz.mp3"},
-    {t:"Happy String Quartet",u:"/audio/string-quartet.mp3"},
     {t:"Piano & Violin",u:"/audio/piano-violin.mp3"},
     {t:"Quiet Keys",u:"/audio/quiet-keys.mp3"},
+    {t:"Soft Reverie",u:"/audio/soft-piano-3.mp3"},
   ],
   rainy:[
     {t:"Guitar in the Rain",u:"/audio/guitar-rain.mp3"},
@@ -57,6 +57,7 @@ const TRACKS={
   bookstore:[
     {t:"Acoustic Afternoon",u:"/audio/acoustic-1.mp3"},
     {t:"Guitar Strolls",u:"/audio/acoustic-2.mp3"},
+    {t:"Sunlit Strings",u:"/audio/acoustic-3.mp3"},
   ],
   evening:[
     {t:"Warm Guitars by the Fire",u:"/audio/fireplace-guitars.mp3"},
@@ -64,7 +65,6 @@ const TRACKS={
     {t:"Night Circuit",u:"/audio/night-circuit.mp3"},
   ],
   forest:[
-    {t:"Forest Fairy",u:"/audio/forest-fairy.mp3"},
     {t:"Enchanted Forest",u:"/audio/enchanted-forest.mp3"},
   ],
   calm:[
@@ -75,6 +75,9 @@ const TRACKS={
     {t:"Gentle Drift",u:"/audio/gentle-drift.mp3"},
     {t:"Little Dolphin",u:"/audio/little-dolphin.mp3"},
     {t:"Quiet Hours",u:"/audio/quiet-hours.mp3"},
+    {t:"Just Relax",u:"/audio/just-relax.mp3"},
+    {t:"Golden Hours",u:"/audio/golden-hours.mp3"},
+    {t:"Stillness",u:"/audio/stillness.mp3"},
   ],
 };
 const ALL_T=Object.values(TRACKS).flat();
@@ -88,7 +91,19 @@ const MCATS=[
   {id:"calm",label:"Calm & Dreamy",labelZh:"放鬆療癒",icon:"☁"},
   {id:"forest",label:"Forest Morning",labelZh:"森林早晨",icon:"✿"},
 ];
-const pickT=(cat,ex)=>{const p=(cat==="random"?ALL_T:TRACKS[cat]||ALL_T).filter(t=>t!==ex);return p[Math.floor(Math.random()*p.length)]||ALL_T[0];};
+let _recent=[];
+const pickT=(cat,ex)=>{
+  const pool=(cat==="random"?ALL_T:TRACKS[cat]||ALL_T);
+  let cand=pool.filter(t=>t!==ex && !_recent.includes(t.u));
+  if(cand.length===0) cand=pool.filter(t=>t!==ex);
+  if(cand.length===0) cand=pool;
+  const pick=cand[Math.floor(Math.random()*cand.length)]||pool[0];
+  if(pick){ _recent.push(pick.u);
+    const keep=Math.max(1,Math.min(pool.length-1,Math.floor(pool.length*0.7)));
+    while(_recent.length>keep) _recent.shift();
+  }
+  return pick;
+};
 const T={
   en:{
     appName:"My Little Corner",appSub:"A cozy place for your thoughts.",
