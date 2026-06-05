@@ -6,8 +6,8 @@ const P = {
   light:"#EFE6D5", paper:"#FFF9EE", lined:"#EDE3D0", warm:"#F8F2E6",
 };
 const SEASONS = {
-  spring:{ accent:P.sage, a2:"#C8D8A8", glow:"rgba(140,169,141,.15)", pc:["#F2A7C3","#F7C5D5","#E8A0BB","#FAD4E0","#D4ECC0"], pt:"petals" },
-  summer:{ accent:P.peach, a2:"#F0C890", glow:"rgba(231,169,133,.15)", pc:["#F8E880","#FFEFA0","#FFD860","#FFF0A0"], pt:"fireflies" },
+  spring:{ accent:"#D99BB0", a2:"#EDC6D4", glow:"rgba(217,155,176,.16)", pc:["#F2A7C3","#F7C5D5","#E8A0BB","#FAD4E0","#F4B8CC"], pt:"petals" },
+  summer:{ accent:P.sage, a2:"#C8D8A8", glow:"rgba(140,169,141,.15)", pc:["#C8D8A8","#D4ECC0","#B8CC98","#E0EFC8"], pt:"fireflies" },
   autumn:{ accent:P.brown, a2:"#D8A070", glow:"rgba(184,155,114,.15)", pc:["#C87030","#D88840","#E8A050","#B05820","#E8C080"], pt:"leaves" },
   winter:{ accent:P.blue, a2:"#B8CCD8", glow:"rgba(143,166,184,.15)", pc:["#DAEAF8","#EAF2FC","#C8DCF0","#F0F6FF"], pt:"snow" },
 };
@@ -312,7 +312,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <ellipse cx="22" cy="34" rx="8" ry="10" fill={accent} opacity=".7" transform="rotate(-20,22,34)"/>
         <ellipse cx="40" cy="34" rx="8" ry="10" fill={accent} opacity=".7" transform="rotate(20,40,34)"/>
         <ellipse cx="31" cy="17" rx="7" ry="9" fill={accent} opacity=".85"/>
-        {accessory==="🦋"&&<path d="M40 14 Q50 8 52 18 Q50 22 40 18Z" fill="#A0C8E8" opacity=".6"/>}
+        {accessory==="🦋"&&<g><path d="M48 13 C41 7.5 39.5 13.5 47 15 Z" fill="#9CC2E8"/><path d="M48 13 C55 7.5 56.5 13.5 49 15 Z" fill="#9CC2E8"/><path d="M48 15.4 C43 19.5 43 15.7 47.4 15.3 Z" fill="#BBD7F2"/><path d="M48 15.4 C53 19.5 53 15.7 48.6 15.3 Z" fill="#BBD7F2"/><ellipse cx="48" cy="14.6" rx="0.95" ry="3.6" fill="#5B4A66"/><circle cx="44" cy="11.8" r="1" fill="#D2E6F8"/><circle cx="52" cy="11.8" r="1" fill="#D2E6F8"/><path d="M48 11 Q46.4 8.4 45.4 8.1" stroke="#5B4A66" strokeWidth="0.5" fill="none" strokeLinecap="round"/><path d="M48 11 Q49.6 8.4 50.6 8.1" stroke="#5B4A66" strokeWidth="0.5" fill="none" strokeLinecap="round"/></g>}
         {accessory==="💧"&&<ellipse cx="50" cy="18" rx="4" ry="6" fill="#A8D8F0" opacity=".7"/>}
         {accessory==="☀️"&&<g><ellipse cx="31" cy="13" rx="13" ry="3.4" fill="#E8C878"/><ellipse cx="31" cy="9.5" rx="6" ry="4" fill="#E0BC68"/><path d="M25 11 Q31 13.5 37 11" stroke="#C89850" strokeWidth="1.4" fill="none"/></g>}
       </svg>
@@ -554,6 +554,8 @@ export default function App(){
   const [backupText,setBackupText]=useState("");
   const [showSystem,setShowSystem]=useState(false);
   const [showWardrobe,setShowWardrobe]=useState(false);
+  const [editingTaskId,setEditingTaskId]=useState(null);
+  const [editTaskDraft,setEditTaskDraft]=useState("");
   const [chosenAcc,setChosenAcc]=useState(()=>S.get("mlc_acc","auto"));
   const [streak,setStreak]=useState(()=>getStreak().count||1);
   const [friendship,setFriendship]=useState(()=>getFriendship());
@@ -617,6 +619,7 @@ export default function App(){
   const addTask=()=>{if(!newTask.trim())return;setTasks(p=>[{id:Date.now(),name:newTask.trim(),priority:newPri,category:newCat,done:false},...p]);setNewTask("");setShowAdd(false);earnPoints(2,"addTask");};
   const toggleTask=id=>{setTasks(p=>p.map(x=>x.id===id?{...x,done:!x.done}:x));triggerComp(tod,"bounce");};
   const deleteTask=id=>setTasks(p=>p.filter(x=>x.id!==id));
+  const saveTaskEdit=id=>{const v=editTaskDraft.trim();if(v)setTasks(p=>p.map(x=>x.id===id?{...x,name:v}:x));setEditingTaskId(null);};
   const saveWin=()=>{setWin(winDraft);setEditingWin(false);earnPoints(5,"win");};
   const saveFocus=()=>{setFocus(focusDraft);setEditingFocus(false);};
   const confirmNextDay=()=>{saveDay({date:todayKey(),tasks,win,focus,vibe,photo,quote,companion:compId,season});triggerComp("nextDay","bounce");setTasks(p=>p.filter(x=>!x.done));setWin("");setWinDraft("");setFocus("");setFocusDraft("");setVibe("");setPhoto("");setShowNextDay(false);loadTr(pickT(musicCat));};
@@ -662,6 +665,9 @@ export default function App(){
     .pill{font-size:10px;color:${P.muted};border:1px solid ${P.border};border-radius:50px;padding:1px 7px;font-family:${font.sans};}
     .del{background:none;border:none;cursor:pointer;color:${P.border};font-size:16px;padding:1px 4px;border-radius:5px;transition:color .2s;margin-left:auto;flex-shrink:0;line-height:1;}
     .del:hover{color:#C07060;}
+    .edt{background:none;border:none;cursor:pointer;color:${P.border};font-size:13px;padding:1px 4px;border-radius:5px;transition:color .2s;margin-left:auto;flex-shrink:0;line-height:1;margin-top:3px;}
+    .edt:hover{color:${accent};}
+    .edit-inp{width:100%;border:1px solid ${accent};border-radius:7px;padding:4px 7px;font-size:13.5px;font-family:inherit;color:${P.text};background:${P.card};outline:none;box-sizing:border-box;}
     .btn{background:${accent};color:#FFFDF8;border:none;border-radius:10px;padding:9px 20px;font-family:${font.sans};font-size:13px;font-weight:500;cursor:pointer;transition:all .18s;}
     .btn:hover{filter:brightness(.92);transform:translateY(-1px);}
     .btn-o{background:transparent;color:${P.sub};border:1px solid ${P.border};border-radius:10px;padding:8px 16px;font-family:${font.sans};font-size:13px;cursor:pointer;transition:all .18s;}
@@ -877,6 +883,11 @@ export default function App(){
               <button onClick={()=>setShowWardrobe(false)} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,fontSize:18}}>✕</button>
             </div>
             <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,marginBottom:14,lineHeight:1.6}}>{t.compNames[compId]} · {t.wardrobeSub} · ♥ {friendship.points} {l==="zh"?"點":"pts"}</p>
+            <div style={{display:"flex",gap:6,marginBottom:14,flexWrap:"wrap",justifyContent:"center"}}>
+              {Object.keys(ACCESSORIES).map(cid=>(
+                <button key={cid} onClick={()=>setCompId(cid)} title={t.compNames[cid]} style={{border:`1.5px solid ${compId===cid?accent:P.border}`,background:compId===cid?P.light:"transparent",borderRadius:12,padding:0,cursor:"pointer",width:44,height:44,display:"flex",alignItems:"center",justifyContent:"center"}}>{renderComp(cid,accent,36)}</button>
+              ))}
+            </div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
               {(ACCESSORIES[compId]||ACCESSORIES.cat).map((a,idx)=>{
                 const isNone=idx===0;
@@ -976,7 +987,10 @@ export default function App(){
                   <div key={x.id} className="task-row">
                     <div style={{width:6,height:6,borderRadius:"50%",background:pdot(x.priority),flexShrink:0,marginTop:6}}/>
                     <button className="chk" onClick={()=>toggleTask(x.id)}/>
-                    <div style={{flex:1}}><span className="tname">{x.name}</span><div style={{marginTop:2}}><span className="pill">{t.catOpts[t.catIds.indexOf(x.category)]||x.category}</span></div></div>
+                    <div style={{flex:1}}>{editingTaskId===x.id?(
+                      <input autoFocus className="edit-inp" value={editTaskDraft} onChange={e=>setEditTaskDraft(e.target.value)} onBlur={()=>saveTaskEdit(x.id)} onKeyDown={e=>{if(e.key==="Enter")saveTaskEdit(x.id);else if(e.key==="Escape")setEditingTaskId(null);}}/>
+                    ):(<span className="tname">{x.name}</span>)}<div style={{marginTop:2}}><span className="pill">{t.catOpts[t.catIds.indexOf(x.category)]||x.category}</span></div></div>
+                    <button className="edt" onClick={()=>{setEditingTaskId(x.id);setEditTaskDraft(x.name);}} title={l==="zh"?"編輯":"Edit"}>✎</button>
                     <button className="del" onClick={()=>deleteTask(x.id)}>×</button>
                   </div>
                 ))}
