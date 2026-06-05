@@ -840,7 +840,7 @@ export default function App(){
             <p className="lbl" style={{marginBottom:9}}>{t.companion} <span style={{textTransform:"none",letterSpacing:0,fontWeight:400,color:P.muted}}>· {l==="zh"?"點選打開衣櫥":"tap to open wardrobe"}</span></p>
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6,marginBottom:16}}>
               {companions.map(k=>(
-                <button key={k} className={`csel${compId===k?" on":""}`} onClick={()=>{setCompId(k);setShowSettings(false);setShowWardrobe(true);}} style={{padding:"8px 5px"}}>
+                <button key={k} className={`csel${compId===k?" on":""}`} onClick={()=>{setCompId(k);setShowWardrobe(true);}} style={{padding:"8px 5px"}}>
                   <div style={{transform:"scale(.72)",height:44,display:"flex",alignItems:"center",justifyContent:"center"}}>{renderComp(k,accent,58)}</div>
                   <span style={{fontSize:10.5,color:compId===k?P.text:P.muted,fontFamily:font.sans,fontWeight:500}}>{t.compNames[k]}</span>
                 </button>
@@ -878,7 +878,7 @@ export default function App(){
         </div>
       )}
       {showWardrobe&&(
-        <div className="overlay" onClick={()=>setShowWardrobe(false)}>
+        <div className="overlay" style={{zIndex:560}} onClick={()=>setShowWardrobe(false)}>
           <div className="modal" style={{maxWidth:380}} onClick={e=>e.stopPropagation()}>
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
               <p className="serif" style={{fontSize:18,color:P.text}}>{t.wardrobe}</p>
