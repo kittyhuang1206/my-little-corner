@@ -235,6 +235,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <ellipse cx="41" cy="54" rx="6" ry="4" fill="#E8D8C0"/>
         {accessory==="🎀"&&<g><path d="M31 37 Q21 31 21 37 Q21 43 31 37Z" fill="#E89BB5"/><path d="M31 37 Q41 31 41 37 Q41 43 31 37Z" fill="#E89BB5"/><path d="M29 38 L26 43" stroke="#E89BB5" strokeWidth="2" strokeLinecap="round"/><path d="M33 38 L36 43" stroke="#E89BB5" strokeWidth="2" strokeLinecap="round"/><circle cx="31" cy="37" r="2.4" fill="#D98AA6"/></g>}
         {accessory==="🎒"&&<rect x="37" y="32" width="14" height="18" rx="4" fill="#7888A8" opacity=".6"/>}
+        {accessory==="🎾"&&<g><circle cx="46" cy="50" r="5" fill="#C6D63E"/><path d="M42.5 47 Q46 50 49.5 47" stroke="#fff" strokeWidth="0.8" fill="none" opacity=".85"/><path d="M42.5 53 Q46 50 49.5 53" stroke="#fff" strokeWidth="0.8" fill="none" opacity=".85"/></g>}
       </svg>
     ),
     bunny:(
@@ -256,6 +257,7 @@ function renderComp(id,accent,size=60,accessory=""){
         {accessory==="🌼"&&<circle cx="31" cy="6" r="6" fill="#F8E060" opacity=".8"/>}
         {accessory==="🌼"&&<circle cx="31" cy="6" r="3" fill="#F0B040" opacity=".7"/>}
         {accessory==="🎀"&&<ellipse cx="31" cy="8" rx="10" ry="4" fill="#E8A0C0" opacity=".75"/>}
+        {accessory==="🥕"&&<g><path d="M40 40 L47 51 L43 52 Z" fill="#E8843C"/><path d="M40 40 l-2.5 -3M40.5 39.5 l0 -3.5M41 40 l3 -3" stroke="#7CAA5A" strokeWidth="1.6" strokeLinecap="round"/></g>}
       </svg>
     ),
     fox:(
@@ -277,6 +279,8 @@ function renderComp(id,accent,size=60,accessory=""){
         <ellipse cx="22" cy="54" rx="5" ry="3.5" fill="#E8C8A0"/>
         <ellipse cx="40" cy="54" rx="5" ry="3.5" fill="#E8C8A0"/>
         {accessory==="🏮"&&<ellipse cx="48" cy="18" rx="7" ry="9" fill="#E86040" opacity=".55"/>}
+        {accessory==="🍂"&&<g><ellipse cx="24" cy="13" rx="3.2" ry="2" fill="#C87030" transform="rotate(-22 24 13)"/><ellipse cx="31" cy="11" rx="3.2" ry="2.1" fill="#E8A050"/><ellipse cx="38" cy="13" rx="3.2" ry="2" fill="#B05820" transform="rotate(22 38 13)"/></g>}
+        {accessory==="🦊"&&<path d="M22 33 Q31 39 40 33 L43 41 Q31 45 19 41 Z" fill="#9A4A2A" opacity=".55"/>}
       </svg>
     ),
     bear:(
@@ -298,6 +302,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <ellipse cx="42" cy="55" rx="6" ry="4" fill="#D8C8B0"/>
         {accessory==="☕"&&<rect x="40" y="26" width="16" height="18" rx="3" fill="#C8A070" opacity=".65"/>}
         {accessory==="🍯"&&<ellipse cx="47" cy="32" rx="8" ry="10" fill="#E8C050" opacity=".55"/>}
+        {accessory==="👨‍🍳"&&<g><ellipse cx="31" cy="7" rx="9" ry="5.5" fill="#FBFAF6"/><ellipse cx="23" cy="9" rx="4.5" ry="4" fill="#FBFAF6"/><ellipse cx="39" cy="9" rx="4.5" ry="4" fill="#FBFAF6"/><rect x="23" y="10.5" width="16" height="4.5" rx="1.5" fill="#ECE6DA"/></g>}
       </svg>
     ),
     plant:(
@@ -310,6 +315,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <ellipse cx="31" cy="17" rx="7" ry="9" fill={accent} opacity=".85"/>
         {accessory==="🦋"&&<path d="M40 14 Q50 8 52 18 Q50 22 40 18Z" fill="#A0C8E8" opacity=".6"/>}
         {accessory==="💧"&&<ellipse cx="50" cy="18" rx="4" ry="6" fill="#A8D8F0" opacity=".7"/>}
+        {accessory==="☀️"&&<g><ellipse cx="31" cy="13" rx="13" ry="3.4" fill="#E8C878"/><ellipse cx="31" cy="9.5" rx="6" ry="4" fill="#E0BC68"/><path d="M25 11 Q31 13.5 37 11" stroke="#C89850" strokeWidth="1.4" fill="none"/></g>}
       </svg>
     ),
   };
