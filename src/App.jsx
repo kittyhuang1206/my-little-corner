@@ -23,15 +23,15 @@ const saveDay=d=>{const h=getHistory();h[d.date]=d;S.set("mlc_h",h);};
 const getStreak=()=>S.get("mlc_streak",{count:0,last:""});
 const bumpStreak=()=>{const t=new Date().toDateString(),{count:c,last:l}=getStreak(),y=new Date(Date.now()-864e5).toDateString();const n=l===t?c:l===y?c+1:1;S.set("mlc_streak",{count:n,last:t});return n;};
 const getFriendship=()=>S.get("mlc_friend",{points:0,level:1,lastOpen:""});
-const addFriendPoints=(pts)=>{const f=getFriendship();const np=f.points+pts;const nl=np>=200?4:np>=80?3:np>=25?2:1;const r={points:np,level:nl,lastOpen:f.lastOpen};S.set("mlc_friend",r);return r;};
+const addFriendPoints=(pts)=>{const f=getFriendship();const np=f.points+pts;const nl=np>=350?4:np>=150?3:np>=50?2:1;const r={points:np,level:nl,lastOpen:f.lastOpen};S.set("mlc_friend",r);return r;};
 const checkDailyOpen=()=>{const t=todayKey();const f=getFriendship();if(f.lastOpen!==t){const r=addFriendPoints(3);r.lastOpen=t;S.set("mlc_friend",r);}};
 const ACCESSORIES={
-  cat:[{pts:0,name:"",emoji:""},{pts:25,name:"Flower Crown",emoji:"🌸"},{pts:80,name:"Scarf",emoji:"🧣"},{pts:200,name:"Little Hat",emoji:"🎩"}],
-  dog:[{pts:0,name:"",emoji:""},{pts:25,name:"Bandana",emoji:"🎀"},{pts:80,name:"Tennis Ball",emoji:"🎾"},{pts:200,name:"Backpack",emoji:"🎒"}],
-  bunny:[{pts:0,name:"",emoji:""},{pts:25,name:"Flower",emoji:"🌼"},{pts:80,name:"Carrot",emoji:"🥕"},{pts:200,name:"Ribbon",emoji:"🎀"}],
-  fox:[{pts:0,name:"",emoji:""},{pts:25,name:"Leaf Crown",emoji:"🍂"},{pts:80,name:"Lantern",emoji:"🏮"},{pts:200,name:"Cape",emoji:"🦊"}],
-  bear:[{pts:0,name:"",emoji:""},{pts:25,name:"Honey Pot",emoji:"🍯"},{pts:80,name:"Cozy Mug",emoji:"☕"},{pts:200,name:"Chef Hat",emoji:"👨‍🍳"}],
-  plant:[{pts:0,name:"",emoji:""},{pts:25,name:"Dewdrop",emoji:"💧"},{pts:80,name:"Butterfly",emoji:"🦋"},{pts:200,name:"Sun Hat",emoji:"☀️"}],
+  cat:[{pts:0,name:"",emoji:""},{pts:50,name:"Flower Crown",emoji:"🌸"},{pts:150,name:"Scarf",emoji:"🧣"},{pts:350,name:"Little Hat",emoji:"🎩"}],
+  dog:[{pts:0,name:"",emoji:""},{pts:50,name:"Bandana",emoji:"🎀"},{pts:150,name:"Tennis Ball",emoji:"🎾"},{pts:350,name:"Backpack",emoji:"🎒"}],
+  bunny:[{pts:0,name:"",emoji:""},{pts:50,name:"Flower",emoji:"🌼"},{pts:150,name:"Carrot",emoji:"🥕"},{pts:350,name:"Ribbon",emoji:"🎀"}],
+  fox:[{pts:0,name:"",emoji:""},{pts:50,name:"Leaf Crown",emoji:"🍂"},{pts:150,name:"Lantern",emoji:"🏮"},{pts:350,name:"Cape",emoji:"🦊"}],
+  bear:[{pts:0,name:"",emoji:""},{pts:50,name:"Honey Pot",emoji:"🍯"},{pts:150,name:"Cozy Mug",emoji:"☕"},{pts:350,name:"Chef Hat",emoji:"👨‍🍳"}],
+  plant:[{pts:0,name:"",emoji:""},{pts:50,name:"Dewdrop",emoji:"💧"},{pts:150,name:"Butterfly",emoji:"🦋"},{pts:350,name:"Sun Hat",emoji:"☀️"}],
 };
 const getAccessory=(cid,pts)=>{const list=ACCESSORIES[cid]||ACCESSORIES.cat;let best=list[0];for(const a of list){if(pts>=a.pts)best=a;}return best;};
 const TRACKS={
@@ -208,10 +208,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <path d="M46 46 Q55 41 53 32" stroke="#D8C4B0" strokeWidth="4" strokeLinecap="round" fill="none"/>
         <ellipse cx="22" cy="54" rx="5.5" ry="3.5" fill="#E8DDD0"/>
         <ellipse cx="40" cy="54" rx="5.5" ry="3.5" fill="#E8DDD0"/>
-        {accessory==="🌸"&&<ellipse cx="31" cy="7" rx="14" ry="4" fill="#F4B8CC" opacity=".75"/>}
-        {accessory==="🌸"&&<ellipse cx="23" cy="7" rx="3" ry="3" fill="#F090B0" opacity=".6"/>}
-        {accessory==="🌸"&&<ellipse cx="31" cy="5" rx="3" ry="3" fill="#F8C0D0" opacity=".7"/>}
-        {accessory==="🌸"&&<ellipse cx="39" cy="7" rx="3" ry="3" fill="#F090B0" opacity=".6"/>}
+        {accessory==="🌸"&&<g><path d="M18 14 Q31 8.5 44 14" stroke="#A6C285" strokeWidth="1.6" fill="none"/><g fill="#F2A7C3"><ellipse cx="22" cy="10.6" rx="1.5" ry="2.4"/><ellipse cx="22" cy="14.4" rx="1.5" ry="2.4"/><ellipse cx="19.9" cy="12.5" rx="2.4" ry="1.5"/><ellipse cx="24.1" cy="12.5" rx="2.4" ry="1.5"/></g><circle cx="22" cy="12.5" r="1.3" fill="#F6D34A"/><g fill="#F7C5D5"><ellipse cx="31" cy="8.4" rx="1.6" ry="2.6"/><ellipse cx="31" cy="13" rx="1.6" ry="2.6"/><ellipse cx="28.6" cy="10.7" rx="2.6" ry="1.6"/><ellipse cx="33.4" cy="10.7" rx="2.6" ry="1.6"/></g><circle cx="31" cy="10.7" r="1.4" fill="#F6D34A"/><g fill="#F2A7C3"><ellipse cx="40" cy="10.6" rx="1.5" ry="2.4"/><ellipse cx="40" cy="14.4" rx="1.5" ry="2.4"/><ellipse cx="37.9" cy="12.5" rx="2.4" ry="1.5"/><ellipse cx="42.1" cy="12.5" rx="2.4" ry="1.5"/></g><circle cx="40" cy="12.5" r="1.3" fill="#F6D34A"/><circle cx="26.5" cy="11.6" r="1.6" fill="#FAD4E0"/><circle cx="35.5" cy="11.6" r="1.6" fill="#FAD4E0"/></g>}
         {accessory==="🎩"&&<rect x="20" y="4" width="22" height="9" rx="2" fill="#3A2818" opacity=".85"/>}
         {accessory==="🎩"&&<rect x="16" y="11" width="30" height="3" rx="1.5" fill="#3A2818" opacity=".7"/>}
         {accessory==="🧣"&&<path d="M16 38 Q31 44 46 38" stroke="#E8906A" strokeWidth="5" strokeLinecap="round" fill="none" opacity=".6"/>}
@@ -278,7 +275,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <ellipse cx="22" cy="54" rx="5" ry="3.5" fill="#E8C8A0"/>
         <ellipse cx="40" cy="54" rx="5" ry="3.5" fill="#E8C8A0"/>
         {accessory==="🏮"&&<g><circle cx="48" cy="15" r="11" fill="#F26B4E" opacity=".16"/><line x1="48" y1="2.5" x2="48" y2="6" stroke="#7A5230" strokeWidth="1" strokeLinecap="round"/><rect x="44" y="5.6" width="8" height="2.6" rx="1.1" fill="#7A5230"/><ellipse cx="48" cy="15" rx="7" ry="8.2" fill="#E8503C"/><ellipse cx="44.6" cy="13" rx="2" ry="5" fill="#F8A07E" opacity=".55"/><line x1="45.4" y1="8.2" x2="45.4" y2="21.8" stroke="#B8331F" strokeWidth="0.6" opacity=".5"/><line x1="48" y1="7.4" x2="48" y2="22.6" stroke="#B8331F" strokeWidth="0.6" opacity=".5"/><line x1="50.6" y1="8.2" x2="50.6" y2="21.8" stroke="#B8331F" strokeWidth="0.6" opacity=".5"/><rect x="44.6" y="20.8" width="6.8" height="2.6" rx="1.1" fill="#7A5230"/><line x1="48" y1="23.4" x2="48" y2="26.5" stroke="#E8C84A" strokeWidth="1" strokeLinecap="round"/><circle cx="48" cy="27.4" r="1.5" fill="#F4D75E"/></g>}
-        {accessory==="🍂"&&<g><ellipse cx="24" cy="13" rx="3.2" ry="2" fill="#C87030" transform="rotate(-22 24 13)"/><ellipse cx="31" cy="11" rx="3.2" ry="2.1" fill="#E8A050"/><ellipse cx="38" cy="13" rx="3.2" ry="2" fill="#B05820" transform="rotate(22 38 13)"/></g>}
+        {accessory==="🍂"&&<g><path d="M19 15 Q31 10 43 15" stroke="#9A7B48" strokeWidth="1.4" fill="none"/><path d="M21 14 q-2.6 -3 -0.4 -6.4 q2.6 2.8 0.4 6.4 Z" fill="#C87030" transform="rotate(-16 21 14)"/><path d="M26.5 12.5 q-2.6 -3 -0.4 -6.4 q2.6 2.8 0.4 6.4 Z" fill="#E8A050" transform="rotate(-7 26.5 12.5)"/><path d="M31 11.6 q-2.6 -3 -0.4 -6.6 q2.6 2.9 0.4 6.6 Z" fill="#D88840"/><path d="M35.5 12.5 q2.6 -3 0.4 -6.4 q-2.6 2.8 -0.4 6.4 Z" fill="#E8A050" transform="rotate(7 35.5 12.5)"/><path d="M41 14 q2.6 -3 0.4 -6.4 q-2.6 2.8 -0.4 6.4 Z" fill="#B05820" transform="rotate(16 41 14)"/></g>}
         {accessory==="🦊"&&<path d="M22 33 Q31 39 40 33 L43 41 Q31 45 19 41 Z" fill="#9A4A2A" opacity=".55"/>}
       </svg>
     ),
@@ -300,7 +297,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <ellipse cx="20" cy="55" rx="6" ry="4" fill="#D8C8B0"/>
         <ellipse cx="42" cy="55" rx="6" ry="4" fill="#D8C8B0"/>
         {accessory==="☕"&&<g><path d="M45 30 q-1.6 -2.6 0.6 -4.2" stroke="#CFC3AE" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity=".75"/><path d="M49 29.5 q-1.6 -2.6 0.6 -4.2" stroke="#CFC3AE" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity=".75"/><path d="M53.5 34 q4 0.2 4 3.6 t-4 3.6" stroke="#C9B79C" strokeWidth="1.8" fill="none"/><rect x="42" y="32.5" width="12" height="11" rx="2.4" fill="#F3EEE4" stroke="#C2AE92" strokeWidth="1"/><path d="M43.2 34.5 h9.6 v1.4 q-4.8 1.4 -9.6 0 Z" fill="#6F4A2E"/></g>}
-        {accessory==="🍯"&&<ellipse cx="47" cy="32" rx="8" ry="10" fill="#E8C050" opacity=".55"/>}
+        {accessory==="🍯"&&<g><rect x="43" y="30" width="13" height="2.8" rx="1.4" fill="#CE9038"/><path d="M44 32.6 Q43.4 41 49.5 42.4 Q55.6 41 55 32.6 Z" fill="#E2A24E"/><path d="M44.5 35.2 Q49.5 37 54.5 35.2" stroke="#C6852F" strokeWidth="0.8" fill="none" opacity=".55"/><rect x="48.7" y="25" width="1.6" height="5.5" rx="0.8" fill="#9A6B3A"/><circle cx="49.5" cy="24.5" r="2" fill="#B07C44"/><path d="M49.5 26.4 q-0.9 2 0 3.8 q0.9 -1.8 0 -3.8 Z" fill="#F4C24E"/></g>}
         {accessory==="👨‍🍳"&&<g><ellipse cx="31" cy="7" rx="9" ry="5.5" fill="#FBFAF6"/><ellipse cx="23" cy="9" rx="4.5" ry="4" fill="#FBFAF6"/><ellipse cx="39" cy="9" rx="4.5" ry="4" fill="#FBFAF6"/><rect x="23" y="10.5" width="16" height="4.5" rx="1.5" fill="#ECE6DA"/></g>}
       </svg>
     ),
@@ -312,7 +309,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <ellipse cx="22" cy="34" rx="8" ry="10" fill={accent} opacity=".7" transform="rotate(-20,22,34)"/>
         <ellipse cx="40" cy="34" rx="8" ry="10" fill={accent} opacity=".7" transform="rotate(20,40,34)"/>
         <ellipse cx="31" cy="17" rx="7" ry="9" fill={accent} opacity=".85"/>
-        {accessory==="🦋"&&<g><path d="M48 13 C41 7.5 39.5 13.5 47 15 Z" fill="#9CC2E8"/><path d="M48 13 C55 7.5 56.5 13.5 49 15 Z" fill="#9CC2E8"/><path d="M48 15.4 C43 19.5 43 15.7 47.4 15.3 Z" fill="#BBD7F2"/><path d="M48 15.4 C53 19.5 53 15.7 48.6 15.3 Z" fill="#BBD7F2"/><ellipse cx="48" cy="14.6" rx="0.95" ry="3.6" fill="#5B4A66"/><circle cx="44" cy="11.8" r="1" fill="#D2E6F8"/><circle cx="52" cy="11.8" r="1" fill="#D2E6F8"/><path d="M48 11 Q46.4 8.4 45.4 8.1" stroke="#5B4A66" strokeWidth="0.5" fill="none" strokeLinecap="round"/><path d="M48 11 Q49.6 8.4 50.6 8.1" stroke="#5B4A66" strokeWidth="0.5" fill="none" strokeLinecap="round"/></g>}
+        {accessory==="🦋"&&<g><ellipse cx="46" cy="15" rx="1.1" ry="4.2" fill="#5B4A66"/><path d="M46 12 C40 6 37 11 39 14 C40.5 16 44 15.5 46 14 Z" fill="#8FB8E6"/><path d="M46 12 C52 6 55 11 53 14 C51.5 16 48 15.5 46 14 Z" fill="#8FB8E6"/><path d="M46 15 C42 18 40 21 42.5 22 C44.5 22.6 46 18.5 46 16.5 Z" fill="#B6D4F2"/><path d="M46 15 C50 18 52 21 49.5 22 C47.5 22.6 46 18.5 46 16.5 Z" fill="#B6D4F2"/><circle cx="42" cy="11" r="1.2" fill="#FBFAF6" opacity=".85"/><circle cx="50" cy="11" r="1.2" fill="#FBFAF6" opacity=".85"/><circle cx="43.2" cy="19.5" r="0.9" fill="#FBFAF6" opacity=".8"/><circle cx="48.8" cy="19.5" r="0.9" fill="#FBFAF6" opacity=".8"/><path d="M46 11.5 Q44 8 42.6 7.6" stroke="#5B4A66" strokeWidth="0.6" fill="none" strokeLinecap="round"/><path d="M46 11.5 Q48 8 49.4 7.6" stroke="#5B4A66" strokeWidth="0.6" fill="none" strokeLinecap="round"/><circle cx="42.6" cy="7.5" r="0.7" fill="#5B4A66"/><circle cx="49.4" cy="7.5" r="0.7" fill="#5B4A66"/></g>}
         {accessory==="💧"&&<ellipse cx="50" cy="18" rx="4" ry="6" fill="#A8D8F0" opacity=".7"/>}
         {accessory==="☀️"&&<g><ellipse cx="31" cy="13" rx="13" ry="3.4" fill="#E8C878"/><ellipse cx="31" cy="9.5" rx="6" ry="4" fill="#E0BC68"/><path d="M25 11 Q31 13.5 37 11" stroke="#C89850" strokeWidth="1.4" fill="none"/></g>}
       </svg>
@@ -556,6 +553,7 @@ export default function App(){
   const [showWardrobe,setShowWardrobe]=useState(false);
   const [editingTaskId,setEditingTaskId]=useState(null);
   const [editTaskDraft,setEditTaskDraft]=useState("");
+  const [checkFx,setCheckFx]=useState(0);
   const [chosenAcc,setChosenAcc]=useState(()=>S.get("mlc_acc","auto"));
   const [streak,setStreak]=useState(()=>getStreak().count||1);
   const [friendship,setFriendship]=useState(()=>getFriendship());
@@ -566,7 +564,7 @@ export default function App(){
   const [audioErr,setAudioErr]=useState("");
   const [muted,setMuted]=useState(false);
   const [volume,setVolume]=useState(.45);
-  const cf=useRef(0),audioRef=useRef(null),animT=useRef(null),rwdT=useRef(null),asT=useRef(null),photoRef=useRef(null);
+  const cf=useRef(0),audioRef=useRef(null),animT=useRef(null),rwdT=useRef(null),asT=useRef(null),photoRef=useRef(null),fxT=useRef(null);
   const l=lang==="zh"?"zh":"en";
   const t=T[l];
   const ss=SEASONS[season];
@@ -579,7 +577,7 @@ export default function App(){
   const dateStr=new Date().toLocaleDateString(l==="zh"?"zh-TW":"en-US",{weekday:"long",month:"long",day:"numeric"});
   const [quote]=useState(()=>{const q=QUOTES[l]||QUOTES.en;return q[Math.floor(Math.random()*q.length)];});
   const [focusQ]=useState(()=>{const q=FQS[l]||FQS.en;return q[Math.floor(Math.random()*q.length)];});
-  const accessory=useMemo(()=>{const list=ACCESSORIES[compId]||ACCESSORIES.cat;const unlocked=list.filter(a=>friendship.points>=a.pts);if(chosenAcc==="none")return "";if(chosenAcc!=="auto"&&unlocked.some(a=>a.emoji===chosenAcc))return chosenAcc;return getAccessory(compId,friendship.points).emoji;},[compId,friendship.points,chosenAcc]);
+  const accessory=useMemo(()=>{const list=ACCESSORIES[compId]||ACCESSORIES.cat;const unlocked=list.filter(a=>friendship.points>=a.pts);if(chosenAcc&&chosenAcc!=="none"&&chosenAcc!=="auto"&&unlocked.some(a=>a.emoji===chosenAcc))return chosenAcc;return "";},[compId,friendship.points,chosenAcc]);
   const yesterday=useMemo(()=>{const h=getHistory();return h[dAgo(1)]||null;},[]);
   const yesterdayDone=useMemo(()=>yesterday?(yesterday.tasks||[]).filter(x=>x.done):[],[yesterday]);
   const companions=["cat","dog","bunny","fox","bear","plant"];
@@ -617,7 +615,7 @@ export default function App(){
   const loadTr=tr=>{setTrack(tr);setAudioErr("");setAudioLoading(true);setTimeout(doPlay,80);};
   const onAErr=()=>{cf.current+=1;setAudioLoading(false);setPlaying(false);if(cf.current>=3){setAudioErr(t.musicNA);return;}setAudioErr(t.skipping);setTimeout(()=>{setAudioErr("");loadTr(pickT(musicCat,track));},1400);};
   const addTask=()=>{if(!newTask.trim())return;setTasks(p=>[{id:Date.now(),name:newTask.trim(),priority:newPri,category:newCat,done:false},...p]);setNewTask("");setShowAdd(false);earnPoints(2,"addTask");};
-  const toggleTask=id=>{setTasks(p=>p.map(x=>x.id===id?{...x,done:!x.done}:x));triggerComp(tod,"bounce");};
+  const toggleTask=id=>{const tk=tasks.find(x=>x.id===id);const becomingDone=tk&&!tk.done;setTasks(p=>p.map(x=>x.id===id?{...x,done:!x.done}:x));triggerComp(tod,"bounce");if(becomingDone){setCheckFx(Date.now());clearTimeout(fxT.current);fxT.current=setTimeout(()=>setCheckFx(0),1100);}};
   const deleteTask=id=>setTasks(p=>p.filter(x=>x.id!==id));
   const saveTaskEdit=id=>{const v=editTaskDraft.trim();if(v)setTasks(p=>p.map(x=>x.id===id?{...x,name:v}:x));setEditingTaskId(null);};
   const saveWin=()=>{setWin(winDraft);setEditingWin(false);earnPoints(5,"win");};
@@ -643,6 +641,9 @@ export default function App(){
     @keyframes glowP{0%,100%{box-shadow:0 0 0 0 transparent;}50%{box-shadow:0 0 20px 5px ${ss.glow};}}
     @keyframes popIn{0%{opacity:0;transform:scale(.6) translateY(10px);}60%{transform:scale(1.06) translateY(0);}100%{opacity:1;transform:scale(1);}}
     @keyframes rewardBounce{0%,100%{transform:translateY(0) rotate(0deg);}25%{transform:translateY(-15px) rotate(-7deg);}50%{transform:translateY(0) rotate(0deg);}75%{transform:translateY(-9px) rotate(7deg);}}
+    .check-fx{position:fixed;left:0;right:0;bottom:46%;height:0;z-index:560;pointer-events:none;text-align:center;}
+    .cfx{position:absolute;bottom:0;font-size:19px;animation:cfxUp 1.05s ease-out forwards;}
+    @keyframes cfxUp{0%{opacity:0;transform:translateY(0) scale(.5) rotate(0deg);}25%{opacity:1;}100%{opacity:0;transform:translateY(-78px) scale(1.15) rotate(12deg);}}
     @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:0;}12%{opacity:1;}100%{transform:translateY(250px) rotate(420deg);opacity:0;}}
     @keyframes confettiFallFull{0%{transform:translateY(-10vh) rotate(0deg);opacity:0;}8%{opacity:1;}100%{transform:translateY(110vh) rotate(540deg);opacity:0;}}
     .reward-pop{animation:popIn .42s cubic-bezier(.2,.8,.3,1.2);}
@@ -776,6 +777,7 @@ export default function App(){
     <div style={{background:P.bg,minHeight:"100vh"}}>
       <style>{css}</style>
       <audio ref={audioRef} src={track.u} onEnded={()=>loadTr(pickT(musicCat,track))} onError={onAErr}/>
+      {checkFx>0&&<div key={checkFx} className="check-fx" aria-hidden="true">{["✦","♥","✓","✿","✦","♥"].map((s,i)=><span key={i} className="cfx" style={{left:`${24+i*10}%`,animationDelay:`${i*0.05}s`,color:i%2?P.peach:accent}}>{s}</span>)}</div>}
       <Particles season={season}/>
       {showReward&&(
         <div className="overlay" style={{background:"rgba(47,52,58,.18)",zIndex:600}} onClick={()=>setShowReward(false)}>
@@ -927,13 +929,13 @@ export default function App(){
                   </div>
                   <span style={{fontSize:9,color:P.muted,fontFamily:font.sans,whiteSpace:"nowrap"}}>{t.friendLevels[friendship.level-1]}</span>
                 </div>
-                {(()=>{const acc=getAccessory(compId,friendship.points);return acc.name?(<div style={{fontSize:9,color:P.muted,fontFamily:font.sans,background:P.light,borderRadius:6,padding:"1px 7px",border:`1px solid ${P.border}`}}>{acc.emoji} {acc.name}</div>):null;})()}
               </div>
             </div>
           </div>
           <div style={{padding:"13px 14px 0"}}>
             {/* NAV */}
             <div style={{display:"flex",gap:8,marginBottom:13,flexWrap:"wrap"}}>
+              <button className="nbtn" onClick={()=>setShowWardrobe(true)}>✦ {t.wardrobe}</button>
               <button className="nbtn" onClick={()=>setShowNextDay(true)}>↻ {t.nextDay}</button>
               <button className="nbtn" onClick={()=>setShowJournal(true)}>◎ {t.journal}</button>
               <button className="nbtn" onClick={()=>setShowSettings(true)}>✿ {t.prefs}</button>
