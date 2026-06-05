@@ -254,8 +254,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <path d="M29 32 Q31 33.5 33 32" stroke="#D4A8A0" strokeWidth="1.1" strokeLinecap="round" fill="none"/>
         <ellipse cx="22" cy="54" rx="5" ry="3" fill="#EDE8E0"/>
         <ellipse cx="40" cy="54" rx="5" ry="3" fill="#EDE8E0"/>
-        {accessory==="🌼"&&<circle cx="31" cy="6" r="6" fill="#F8E060" opacity=".8"/>}
-        {accessory==="🌼"&&<circle cx="31" cy="6" r="3" fill="#F0B040" opacity=".7"/>}
+        {accessory==="🌼"&&<g><line x1="45" y1="55" x2="45" y2="45" stroke="#6FA052" strokeWidth="1.5" strokeLinecap="round"/><ellipse cx="42" cy="50" rx="2.6" ry="1.4" fill="#6FA052" transform="rotate(-30 42 50)"/><ellipse cx="45" cy="38" rx="2" ry="3.1" fill="#FBD94B"/><ellipse cx="45" cy="46" rx="2" ry="3.1" fill="#FBD94B"/><ellipse cx="41" cy="42" rx="3.1" ry="2" fill="#FBD94B"/><ellipse cx="49" cy="42" rx="3.1" ry="2" fill="#FBD94B"/><ellipse cx="42.2" cy="39.2" rx="2.6" ry="1.7" fill="#FCE070" transform="rotate(45 42.2 39.2)"/><ellipse cx="47.8" cy="39.2" rx="2.6" ry="1.7" fill="#FCE070" transform="rotate(-45 47.8 39.2)"/><ellipse cx="42.2" cy="44.8" rx="2.6" ry="1.7" fill="#FCE070" transform="rotate(-45 42.2 44.8)"/><ellipse cx="47.8" cy="44.8" rx="2.6" ry="1.7" fill="#FCE070" transform="rotate(45 47.8 44.8)"/><circle cx="45" cy="42" r="2.3" fill="#F0A828"/><circle cx="45" cy="42" r="1" fill="#D98A1A"/></g>}
         {accessory==="🎀"&&<ellipse cx="31" cy="8" rx="10" ry="4" fill="#E8A0C0" opacity=".75"/>}
         {accessory==="🥕"&&<g><path d="M40 40 L47 51 L43 52 Z" fill="#E8843C"/><path d="M40 40 l-2.5 -3M40.5 39.5 l0 -3.5M41 40 l3 -3" stroke="#7CAA5A" strokeWidth="1.6" strokeLinecap="round"/></g>}
       </svg>
@@ -278,7 +277,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <path d="M44 46 Q53 42 52 34" stroke="#D4905A" strokeWidth="4.5" strokeLinecap="round" fill="none"/>
         <ellipse cx="22" cy="54" rx="5" ry="3.5" fill="#E8C8A0"/>
         <ellipse cx="40" cy="54" rx="5" ry="3.5" fill="#E8C8A0"/>
-        {accessory==="🏮"&&<ellipse cx="48" cy="18" rx="7" ry="9" fill="#E86040" opacity=".55"/>}
+        {accessory==="🏮"&&<g><circle cx="48" cy="15" r="11" fill="#F26B4E" opacity=".16"/><line x1="48" y1="2.5" x2="48" y2="6" stroke="#7A5230" strokeWidth="1" strokeLinecap="round"/><rect x="44" y="5.6" width="8" height="2.6" rx="1.1" fill="#7A5230"/><ellipse cx="48" cy="15" rx="7" ry="8.2" fill="#E8503C"/><ellipse cx="44.6" cy="13" rx="2" ry="5" fill="#F8A07E" opacity=".55"/><line x1="45.4" y1="8.2" x2="45.4" y2="21.8" stroke="#B8331F" strokeWidth="0.6" opacity=".5"/><line x1="48" y1="7.4" x2="48" y2="22.6" stroke="#B8331F" strokeWidth="0.6" opacity=".5"/><line x1="50.6" y1="8.2" x2="50.6" y2="21.8" stroke="#B8331F" strokeWidth="0.6" opacity=".5"/><rect x="44.6" y="20.8" width="6.8" height="2.6" rx="1.1" fill="#7A5230"/><line x1="48" y1="23.4" x2="48" y2="26.5" stroke="#E8C84A" strokeWidth="1" strokeLinecap="round"/><circle cx="48" cy="27.4" r="1.5" fill="#F4D75E"/></g>}
         {accessory==="🍂"&&<g><ellipse cx="24" cy="13" rx="3.2" ry="2" fill="#C87030" transform="rotate(-22 24 13)"/><ellipse cx="31" cy="11" rx="3.2" ry="2.1" fill="#E8A050"/><ellipse cx="38" cy="13" rx="3.2" ry="2" fill="#B05820" transform="rotate(22 38 13)"/></g>}
         {accessory==="🦊"&&<path d="M22 33 Q31 39 40 33 L43 41 Q31 45 19 41 Z" fill="#9A4A2A" opacity=".55"/>}
       </svg>
@@ -300,7 +299,7 @@ function renderComp(id,accent,size=60,accessory=""){
         <path d="M28 33 Q31 35 34 33" stroke="#A08870" strokeWidth="1.3" strokeLinecap="round" fill="none"/>
         <ellipse cx="20" cy="55" rx="6" ry="4" fill="#D8C8B0"/>
         <ellipse cx="42" cy="55" rx="6" ry="4" fill="#D8C8B0"/>
-        {accessory==="☕"&&<rect x="40" y="26" width="16" height="18" rx="3" fill="#C8A070" opacity=".65"/>}
+        {accessory==="☕"&&<g><path d="M45 30 q-1.6 -2.6 0.6 -4.2" stroke="#CFC3AE" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity=".75"/><path d="M49 29.5 q-1.6 -2.6 0.6 -4.2" stroke="#CFC3AE" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity=".75"/><path d="M53.5 34 q4 0.2 4 3.6 t-4 3.6" stroke="#C9B79C" strokeWidth="1.8" fill="none"/><rect x="42" y="32.5" width="12" height="11" rx="2.4" fill="#F3EEE4" stroke="#C2AE92" strokeWidth="1"/><path d="M43.2 34.5 h9.6 v1.4 q-4.8 1.4 -9.6 0 Z" fill="#6F4A2E"/></g>}
         {accessory==="🍯"&&<ellipse cx="47" cy="32" rx="8" ry="10" fill="#E8C050" opacity=".55"/>}
         {accessory==="👨‍🍳"&&<g><ellipse cx="31" cy="7" rx="9" ry="5.5" fill="#FBFAF6"/><ellipse cx="23" cy="9" rx="4.5" ry="4" fill="#FBFAF6"/><ellipse cx="39" cy="9" rx="4.5" ry="4" fill="#FBFAF6"/><rect x="23" y="10.5" width="16" height="4.5" rx="1.5" fill="#ECE6DA"/></g>}
       </svg>
@@ -448,33 +447,80 @@ function MusicPlayer({track,playing,loading,errMsg,muted,volume,cat,onPlay,onPre
   );
 }
 function JournalModal({onClose,font,accent,t,l}){
-  const days=Object.entries(getHistory()).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,30);
+  const hist=getHistory();
+  const now=new Date();
+  const [view,setView]=useState({y:now.getFullYear(),m:now.getMonth()});
+  const [sel,setSel]=useState(null);
+  const pad=n=>String(n).padStart(2,"0");
+  const keyOf=(y,m,d)=>`${y}-${pad(m+1)}-${pad(d)}`;
+  const {y,m}=view;
+  const firstDow=new Date(y,m,1).getDay();
+  const daysIn=new Date(y,m+1,0).getDate();
+  const todayK=new Date().toISOString().slice(0,10);
+  const wdLabels=l==="zh"?["日","一","二","三","四","五","六"]:["Su","Mo","Tu","We","Th","Fr","Sa"];
+  const monthLabel=new Date(y,m,1).toLocaleDateString(l==="zh"?"zh-TW":"en-US",{year:"numeric",month:"long"});
+  const curY=now.getFullYear(),curM=now.getMonth();
+  const atCurrent=(y>curY)||(y===curY&&m>=curM);
+  const prevM=()=>setView(v=>v.m===0?{y:v.y-1,m:11}:{y:v.y,m:v.m-1});
+  const nextM=()=>{if(atCurrent)return;setView(v=>v.m===11?{y:v.y+1,m:0}:{y:v.y,m:v.m+1});};
+  const cells=[];for(let i=0;i<firstDow;i++)cells.push(null);for(let d=1;d<=daysIn;d++)cells.push(d);
+  const selData=sel?hist[sel]:null;
+  const lblS={fontSize:10,fontWeight:600,letterSpacing:1.2,color:P.muted,textTransform:"uppercase",fontFamily:font.sans};
   return(
     <div style={{position:"fixed",inset:0,background:"rgba(47,52,58,.25)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:500}} onClick={onClose}>
-      <div style={{background:P.card,border:`1px solid ${P.border}`,borderRadius:22,padding:24,maxWidth:480,width:"94%",maxHeight:"80vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
-        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18}}>
+      <div style={{background:P.card,border:`1px solid ${P.border}`,borderRadius:22,padding:24,maxWidth:420,width:"94%",maxHeight:"82vh",overflowY:"auto"}} onClick={e=>e.stopPropagation()}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16}}>
           <div><p style={{fontFamily:font.serif,fontSize:20,color:P.text}}>{t.journalTitle}</p><p style={{fontSize:11,color:P.muted,fontFamily:font.sans,marginTop:2}}>{t.journalSub}</p></div>
           <button onClick={onClose} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,fontSize:18}}>✕</button>
         </div>
-        {days.length===0?<p style={{fontFamily:font.serif,fontSize:14,color:P.muted,fontStyle:"italic",textAlign:"center",padding:"24px 0"}}>{t.noHistory}</p>
-        :days.map(([k,d])=>{
-          const dt=new Date(k);const done=(d.tasks||[]).filter(x=>x.done);
+        {sel?(()=>{
+          const parts=sel.split("-").map(Number);const dt=new Date(parts[0],parts[1]-1,parts[2]);
+          const d=selData||{};const done=(d.tasks||[]).filter(x=>x.done);
+          const empty=done.length===0&&!d.win&&!d.photo;
           return(
-            <div key={k} style={{marginBottom:14,background:P.paper,border:`1px solid ${P.lined}`,borderRadius:14,padding:"14px 16px",borderLeft:`3px solid ${accent}`}}>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
-                <p style={{fontSize:12,fontWeight:600,color:P.text,fontFamily:font.sans}}>{dt.toLocaleDateString(l==="zh"?"zh-TW":"en-US",{weekday:"long",month:"long",day:"numeric"})}</p>
-                <span style={{fontSize:10,color:P.muted,fontFamily:font.sans}}>{done.length}/{(d.tasks||[]).length}</span>
+            <div>
+              <button onClick={()=>setSel(null)} style={{background:"none",border:"none",cursor:"pointer",color:accent,fontFamily:font.sans,fontSize:12,fontWeight:600,marginBottom:12,padding:0}}>‹ {l==="zh"?"返回月曆":"Back to calendar"}</button>
+              <div style={{background:P.paper,border:`1px solid ${P.lined}`,borderRadius:14,padding:"14px 16px",borderLeft:`3px solid ${accent}`}}>
+                <p style={{fontSize:12,fontWeight:600,color:P.text,fontFamily:font.sans,marginBottom:8}}>{dt.toLocaleDateString(l==="zh"?"zh-TW":"en-US",{weekday:"long",month:"long",day:"numeric"})}</p>
+                {d.photo&&<div style={{marginBottom:10}}><img src={d.photo} alt="" style={{width:"100%",maxHeight:170,objectFit:"cover",borderRadius:10,border:`1px solid ${P.border}`}}/></div>}
+                {done.length>0&&<div style={{marginBottom:8}}><p style={{...lblS,marginBottom:5}}>{t.completed}</p>{done.map(x=><div key={x.id} style={{display:"flex",alignItems:"center",gap:6,marginBottom:3}}><span style={{color:P.sage,fontSize:11}}>✓</span><span style={{fontSize:13,color:P.sub,fontFamily:font.sans}}>{x.name}</span></div>)}</div>}
+                {d.win&&<div style={{borderTop:`1px dashed ${P.border}`,paddingTop:8,marginTop:6}}><p style={{fontFamily:font.serif,fontSize:14,color:P.text,fontStyle:"italic",lineHeight:1.65}}>"{d.win}"</p></div>}
+                {empty&&<p style={{fontFamily:font.serif,fontSize:13,color:P.muted,fontStyle:"italic"}}>{t.noHistory}</p>}
               </div>
-              {d.photo&&<div style={{marginBottom:10}}><img src={d.photo} alt="today" style={{width:"100%",maxHeight:150,objectFit:"cover",borderRadius:10,border:`1px solid ${P.border}`}}/></div>}
-              {done.length>0&&<div style={{marginBottom:8}}><p style={{fontSize:10,fontWeight:600,letterSpacing:1.2,color:P.muted,textTransform:"uppercase",marginBottom:5,fontFamily:font.sans}}>{t.completed}</p>{done.map(x=><div key={x.id} style={{display:"flex",alignItems:"center",gap:6,marginBottom:3}}><span style={{color:P.sage,fontSize:11}}>✓</span><span style={{fontSize:13,color:P.sub,fontFamily:font.sans}}>{x.name}</span></div>)}</div>}
-              {d.win&&<div style={{borderTop:`1px dashed ${P.border}`,paddingTop:8,marginTop:6}}><p style={{fontFamily:font.serif,fontSize:14,color:P.text,fontStyle:"italic",lineHeight:1.65}}>"{d.win}"</p></div>}
             </div>
           );
-        })}
+        })():(
+          <div>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:12}}>
+              <button onClick={prevM} style={{background:P.light,border:`1px solid ${P.border}`,borderRadius:8,cursor:"pointer",color:P.sub,width:28,height:28,fontSize:14}}>‹</button>
+              <p style={{fontFamily:font.serif,fontSize:15,color:P.text}}>{monthLabel}</p>
+              <button onClick={nextM} disabled={atCurrent} style={{background:P.light,border:`1px solid ${P.border}`,borderRadius:8,cursor:atCurrent?"default":"pointer",color:P.sub,width:28,height:28,fontSize:14,opacity:atCurrent?.35:1}}>›</button>
+            </div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:4,marginBottom:6}}>
+              {wdLabels.map((w,i)=><div key={i} style={{textAlign:"center",fontSize:9.5,color:P.muted,fontFamily:font.sans,fontWeight:600}}>{w}</div>)}
+            </div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:4}}>
+              {cells.map((d,i)=>{
+                if(d===null)return<div key={i}/>;
+                const k=keyOf(y,m,d);const entry=hist[k];
+                const hasData=!!(entry&&((entry.tasks||[]).some(x=>x.done)||entry.win||entry.photo));
+                const isToday=k===todayK;const future=k>todayK;
+                return(
+                  <button key={i} disabled={!hasData} onClick={()=>setSel(k)} style={{position:"relative",aspectRatio:"1",border:isToday?`1.5px solid ${accent}`:`1px solid ${hasData?P.border:"transparent"}`,background:hasData?P.light:"transparent",borderRadius:9,cursor:hasData?"pointer":"default",color:future?P.border:P.sub,fontFamily:font.sans,fontSize:12,fontWeight:hasData?600:400,display:"flex",alignItems:"center",justifyContent:"center",opacity:future?.5:1}}>
+                    {d}
+                    {hasData&&<span style={{position:"absolute",bottom:4,left:"50%",transform:"translateX(-50%)",width:4,height:4,borderRadius:"50%",background:accent}}/>}
+                  </button>
+                );
+              })}
+            </div>
+            <p style={{fontSize:10,color:P.muted,fontFamily:font.sans,marginTop:12,textAlign:"center"}}>{l==="zh"?"點選有圓點的日子查看日記":"Tap a dotted day to read its journal"}</p>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
 export default function App(){
   const [lang,setLang]=useState(()=>S.get("mlc_lang",""));
   const [userName,setUserName]=useState(()=>S.get("mlc_name",""));
@@ -723,7 +769,7 @@ export default function App(){
   return(
     <div style={{background:P.bg,minHeight:"100vh"}}>
       <style>{css}</style>
-      <audio ref={audioRef} src={track.u} loop onError={onAErr}/>
+      <audio ref={audioRef} src={track.u} onEnded={()=>loadTr(pickT(musicCat,track))} onError={onAErr}/>
       <Particles season={season}/>
       {showReward&&(
         <div className="overlay" style={{background:"rgba(47,52,58,.18)",zIndex:600}} onClick={()=>setShowReward(false)}>
@@ -830,7 +876,7 @@ export default function App(){
               <p className="serif" style={{fontSize:18,color:P.text}}>{t.wardrobe}</p>
               <button onClick={()=>setShowWardrobe(false)} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,fontSize:18}}>✕</button>
             </div>
-            <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,marginBottom:14,lineHeight:1.6}}>{t.wardrobeSub} · ♥ {friendship.points} {l==="zh"?"點":"pts"}</p>
+            <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,marginBottom:14,lineHeight:1.6}}>{t.compNames[compId]} · {t.wardrobeSub} · ♥ {friendship.points} {l==="zh"?"點":"pts"}</p>
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
               {(ACCESSORIES[compId]||ACCESSORIES.cat).map((a,idx)=>{
                 const isNone=idx===0;
@@ -838,7 +884,7 @@ export default function App(){
                 const worn=isNone?(accessory===""):(accessory===a.emoji);
                 return(
                   <button key={idx} disabled={!unlocked} onClick={()=>setChosenAcc(isNone?"none":a.emoji)} style={{border:`1.5px solid ${worn?accent:P.border}`,background:worn?P.light:"transparent",borderRadius:12,padding:"10px 6px",cursor:unlocked?"pointer":"default",opacity:unlocked?1:.45,display:"flex",flexDirection:"column",alignItems:"center",gap:4}}>
-                    <span style={{fontSize:22,lineHeight:1}}>{isNone?"—":a.emoji}</span>
+                    <div style={{height:46,width:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{renderComp(compId,accent,46,isNone?"":a.emoji)}</div>
                     <span style={{fontSize:9.5,color:P.sub,fontFamily:font.sans,textAlign:"center"}}>{unlocked?(isNone?t.noneLabel:a.name):("🔒 "+a.pts)}</span>
                   </button>
                 );
@@ -882,17 +928,6 @@ export default function App(){
               <button className="nbtn" onClick={()=>setShowSettings(true)}>✿ {t.prefs}</button>
               <button className="nbtn" onClick={()=>setShowSystem(true)}>⚙ {t.system}</button>
             </div>
-            {/* YESTERDAY */}
-            {yesterdayDone.length>0&&(
-              <div style={{marginBottom:13,animation:"fadeUp .38s ease"}}>
-                <p className="lbl">{t.yesterday}</p>
-                <div style={{background:P.light,border:`1px solid ${P.border}`,borderRadius:14,padding:"12px 15px"}}>
-                  <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,marginBottom:6,fontWeight:500}}>{l==="zh"?`你完成了 ${yesterdayDone.length} 件事`:`You completed ${yesterdayDone.length} thing${yesterdayDone.length!==1?"s":""}`}</p>
-                  {yesterdayDone.slice(0,4).map(x=>(<div key={x.id} style={{display:"flex",alignItems:"center",gap:6,marginBottom:3}}><span style={{color:P.sage,fontSize:11}}>✓</span><span style={{fontSize:13,color:P.sub,fontFamily:font.sans}}>{x.name}</span></div>))}
-                  {yesterday?.win&&<p className="serif" style={{fontSize:13,color:P.text,fontStyle:"italic",marginTop:7,paddingTop:7,borderTop:`1px dashed ${P.border}`,lineHeight:1.6}}>"{yesterday.win}"</p>}
-                </div>
-              </div>
-            )}
             {/* 1. RITUAL */}
             <div style={{marginBottom:13,animation:"fadeUp .42s ease"}}>
               <p className="lbl">{t.ritual}</p>
