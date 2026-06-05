@@ -837,10 +837,10 @@ export default function App(){
                 <button key={lid} className={`tbtn${lang===lid?" on":""}`} onClick={()=>{setLang(lid);S.set("mlc_lang",lid);}}>{label}</button>
               ))}
             </div>
-            <p className="lbl" style={{marginBottom:9}}>{t.companion}</p>
+            <p className="lbl" style={{marginBottom:9}}>{t.companion} <span style={{textTransform:"none",letterSpacing:0,fontWeight:400,color:P.muted}}>· {l==="zh"?"點選打開衣櫥":"tap to open wardrobe"}</span></p>
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:6,marginBottom:16}}>
               {companions.map(k=>(
-                <button key={k} className={`csel${compId===k?" on":""}`} onClick={()=>setCompId(k)} style={{padding:"8px 5px"}}>
+                <button key={k} className={`csel${compId===k?" on":""}`} onClick={()=>{setCompId(k);setShowSettings(false);setShowWardrobe(true);}} style={{padding:"8px 5px"}}>
                   <div style={{transform:"scale(.72)",height:44,display:"flex",alignItems:"center",justifyContent:"center"}}>{renderComp(k,accent,58)}</div>
                   <span style={{fontSize:10.5,color:compId===k?P.text:P.muted,fontFamily:font.sans,fontWeight:500}}>{t.compNames[k]}</span>
                 </button>
@@ -935,7 +935,6 @@ export default function App(){
           <div style={{padding:"13px 14px 0"}}>
             {/* NAV */}
             <div style={{display:"flex",gap:8,marginBottom:13,flexWrap:"wrap"}}>
-              <button className="nbtn" onClick={()=>setShowWardrobe(true)}>✦ {t.wardrobe}</button>
               <button className="nbtn" onClick={()=>setShowNextDay(true)}>↻ {t.nextDay}</button>
               <button className="nbtn" onClick={()=>setShowJournal(true)}>◎ {t.journal}</button>
               <button className="nbtn" onClick={()=>setShowSettings(true)}>✿ {t.prefs}</button>
