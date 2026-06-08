@@ -1,4 +1,17 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+import { initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, doc, setDoc, onSnapshot } from "firebase/firestore";
+const firebaseConfig = {
+  apiKey: "AIzaSyBTWsMPiwx14Akdv-1_aFotTCT0FIRvEU8",
+  authDomain: "my-little-corner-a8975.firebaseapp.com",
+  projectId: "my-little-corner-a8975",
+  storageBucket: "my-little-corner-a8975.firebasestorage.app",
+  messagingSenderId: "902972779337",
+  appId: "1:902972779337:web:7a44ad5f92ebc080258898",
+};
+let _fbAuth=null,_fbDb=null,_fbProvider=null;
+try{ const _fbApp=initializeApp(firebaseConfig); _fbAuth=getAuth(_fbApp); _fbDb=getFirestore(_fbApp); _fbProvider=new GoogleAuthProvider(); }catch(e){ if(typeof console!=="undefined")console.warn("Firebase init failed",e); }
 const P = {
   bg:"#F5F0E8", card:"#FFFDF8", border:"#DED3C2",
   text:"#2F343A", sub:"#6B7280", muted:"#A09080",
@@ -14,8 +27,11 @@ const SEASONS = {
 const getSeason=()=>{const m=new Date().getMonth();return m>=2&&m<=4?"spring":m>=5&&m<=7?"summer":m>=8&&m<=10?"autumn":"winter";};
 const S={
   get:(k,fb=null)=>{try{const v=localStorage.getItem(k);return v!==null?JSON.parse(v):fb;}catch{return fb;}},
-  set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}},
+  set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}try{if(k!=="mlc_ts")localStorage.setItem("mlc_ts",String(Date.now()));}catch{}try{if(typeof window!=="undefined"&&window.__mlcPush)window.__mlcPush();}catch{}},
 };
+const SYNC_DUMP=()=>{const o={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf("mlc_")===0)o[k]=localStorage.getItem(k);}}catch{}return o;};
+const SYNC_WRITE=(o)=>{try{Object.keys(o||{}).forEach(k=>{if(k.indexOf("mlc_")===0&&typeof o[k]==="string")localStorage.setItem(k,o[k]);});}catch{}};
+const LOCAL_TS=()=>{try{return Number(localStorage.getItem("mlc_ts")||0);}catch{return 0;}};
 const todayKey=()=>new Date().toISOString().slice(0,10);
 const dAgo=n=>new Date(Date.now()-n*864e5).toISOString().slice(0,10);
 const getHistory=()=>S.get("mlc_h",{});
@@ -549,6 +565,8 @@ export default function App(){
   const [editingName,setEditingName]=useState(false);
   const [showReset,setShowReset]=useState(false);
   const [backupText,setBackupText]=useState("");
+  const [syncUser,setSyncUser]=useState(null);
+  const [syncMsg,setSyncMsg]=useState("");
   const [showSystem,setShowSystem]=useState(false);
   const [showWardrobe,setShowWardrobe]=useState(false);
   const [editingTaskId,setEditingTaskId]=useState(null);
@@ -564,7 +582,7 @@ export default function App(){
   const [audioErr,setAudioErr]=useState("");
   const [muted,setMuted]=useState(false);
   const [volume,setVolume]=useState(.45);
-  const cf=useRef(0),audioRef=useRef(null),animT=useRef(null),rwdT=useRef(null),asT=useRef(null),photoRef=useRef(null),fxT=useRef(null);
+  const cf=useRef(0),audioRef=useRef(null),animT=useRef(null),rwdT=useRef(null),asT=useRef(null),photoRef=useRef(null),fxT=useRef(null),pushT=useRef(null);
   const l=lang==="zh"?"zh":"en";
   const t=T[l];
   const ss=SEASONS[season];
@@ -627,6 +645,10 @@ export default function App(){
   const doReset=()=>{try{Object.keys(localStorage).filter(k=>k.startsWith("mlc_")).forEach(k=>localStorage.removeItem(k));}catch{}setLang("");setUserName("");setCompId("cat");setOnbStep(0);setEntered(false);setTasks([]);setWin("");setFocus("");setVibe("");setPhoto("");setStreak(1);setFriendship({points:0,level:1,lastOpen:""});setShowReset(false);setShowSettings(false);};
   const exportData=()=>{try{const o={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf("mlc_")===0)o[k]=localStorage.getItem(k);}const code=btoa(unescape(encodeURIComponent(JSON.stringify(o))));setBackupText(code);try{navigator.clipboard.writeText(code);}catch(e){}}catch(e){}};
   const importData=()=>{try{const json=decodeURIComponent(escape(atob(backupText.trim())));const o=JSON.parse(json);Object.keys(o).forEach(k=>{if(k.indexOf("mlc_")===0)localStorage.setItem(k,o[k]);});location.reload();}catch(e){alert(l==="zh"?"代碼無效，請確認貼上完整的代碼。":"Invalid code — please paste the full backup code.");}};
+  useEffect(()=>{ if(!_fbAuth)return; try{getRedirectResult(_fbAuth).catch(()=>{});}catch{} const unsub=onAuthStateChanged(_fbAuth,u=>setSyncUser(u||null)); return ()=>{try{unsub&&unsub();}catch{}}; },[]);
+  useEffect(()=>{ if(!_fbDb||!syncUser){if(typeof window!=="undefined")window.__mlcPush=null;return;} const ref=doc(_fbDb,"states",syncUser.uid); const push=()=>{setDoc(ref,{data:SYNC_DUMP(),ts:LOCAL_TS(),uid:syncUser.uid},{merge:true}).then(()=>setSyncMsg("ok")).catch(()=>setSyncMsg("err"));}; window.__mlcPush=()=>{clearTimeout(pushT.current);pushT.current=setTimeout(push,1200);}; const unsub=onSnapshot(ref,snap=>{ const d=snap.exists()?snap.data():null; if(!d||!d.data){push();return;} if(JSON.stringify(d.data)===JSON.stringify(SYNC_DUMP())){setSyncMsg("ok");return;} if(Number(d.ts||0)>LOCAL_TS()){SYNC_WRITE(d.data);location.reload();}else{push();} },()=>setSyncMsg("err")); return ()=>{if(typeof window!=="undefined")window.__mlcPush=null;try{unsub&&unsub();}catch{}}; },[syncUser]);
+  const doSignIn=()=>{ if(!_fbAuth||!_fbProvider)return; setSyncMsg("…"); const m=/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent); try{ if(m){signInWithRedirect(_fbAuth,_fbProvider);} else {signInWithPopup(_fbAuth,_fbProvider).catch(()=>setSyncMsg("err"));} }catch(e){setSyncMsg("err");} };
+  const doSignOut=()=>{ if(!_fbAuth)return; try{signOut(_fbAuth);}catch(e){} };
   const friendMax=friendship.level===1?25:friendship.level===2?55:120;
   const friendBase=friendship.level===1?0:friendship.level===2?25:friendship.level===3?80:200;
   const friendPct=Math.min(100,Math.round(((friendship.points-friendBase)/friendMax)*100));
@@ -865,6 +887,16 @@ export default function App(){
               <p className="serif" style={{fontSize:18,color:P.text}}>{t.system}</p>
               <button onClick={()=>setShowSystem(false)} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,fontSize:18}}>✕</button>
             </div>
+            <p className="lbl" style={{marginBottom:7}}>{l==="zh"?"雲端同步":"Cloud Sync"}</p>
+            <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,lineHeight:1.6,marginBottom:8}}>{l==="zh"?"用 Google 登入，資料就會自動在你的裝置之間同步。":"Sign in with Google and your data syncs automatically across your devices."}</p>
+            {syncUser?(
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,marginBottom:18,background:P.paper,border:`1px solid ${P.border}`,borderRadius:10,padding:"9px 11px"}}>
+                <div style={{minWidth:0}}><p style={{fontSize:11,color:P.text,fontFamily:font.sans,fontWeight:600,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>✓ {syncUser.email||(l==="zh"?"已登入":"Signed in")}</p><p style={{fontSize:10,color:P.muted,fontFamily:font.sans}}>{l==="zh"?"同步已開啟":"Syncing is on"}</p></div>
+                <button className="btn-o" style={{fontSize:11,flexShrink:0}} onClick={doSignOut}>{l==="zh"?"登出":"Sign out"}</button>
+              </div>
+            ):(
+              <button className="btn" style={{width:"100%",marginBottom:18,display:"flex",alignItems:"center",justifyContent:"center",gap:8}} onClick={doSignIn}>{l==="zh"?"使用 Google 登入":"Sign in with Google"}</button>
+            )}
             <p className="lbl" style={{marginBottom:7}}>{t.backupTitle}</p>
             <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,lineHeight:1.6,marginBottom:8}}>{t.backupDesc}</p>
             <textarea value={backupText} onChange={e=>setBackupText(e.target.value)} placeholder={t.backupPh} rows={3} style={{width:"100%",border:`1px solid ${P.border}`,borderRadius:10,padding:"8px 10px",fontFamily:font.sans,fontSize:11,color:P.sub,background:P.paper,outline:"none",resize:"none",wordBreak:"break-all",marginBottom:8}}/>
