@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc, onSnapshot } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyBTWsMPiwx14Akdv-1_aFotTCT0FIRvEU8",
@@ -567,6 +567,8 @@ export default function App(){
   const [backupText,setBackupText]=useState("");
   const [syncUser,setSyncUser]=useState(null);
   const [syncMsg,setSyncMsg]=useState("");
+  const [syncEmail,setSyncEmail]=useState("");
+  const [syncPass,setSyncPass]=useState("");
   const [showSystem,setShowSystem]=useState(false);
   const [showWardrobe,setShowWardrobe]=useState(false);
   const [editingTaskId,setEditingTaskId]=useState(null);
@@ -647,7 +649,9 @@ export default function App(){
   const importData=()=>{try{const json=decodeURIComponent(escape(atob(backupText.trim())));const o=JSON.parse(json);Object.keys(o).forEach(k=>{if(k.indexOf("mlc_")===0)localStorage.setItem(k,o[k]);});location.reload();}catch(e){alert(l==="zh"?"代碼無效，請確認貼上完整的代碼。":"Invalid code — please paste the full backup code.");}};
   useEffect(()=>{ if(!_fbAuth)return; try{getRedirectResult(_fbAuth).catch(()=>{});}catch{} const unsub=onAuthStateChanged(_fbAuth,u=>setSyncUser(u||null)); return ()=>{try{unsub&&unsub();}catch{}}; },[]);
   useEffect(()=>{ if(!_fbDb||!syncUser){if(typeof window!=="undefined")window.__mlcPush=null;return;} const ref=doc(_fbDb,"states",syncUser.uid); const isEmpty=(o)=>{try{const tk=JSON.parse((o&&o["mlc_tasks"])||"[]");const h=JSON.parse((o&&o["mlc_h"])||"{}");return (!tk||tk.length===0)&&(!h||Object.keys(h).length===0);}catch(e){return true;}}; const push=()=>{setDoc(ref,{data:SYNC_DUMP(),ts:LOCAL_TS(),uid:syncUser.uid},{merge:true}).then(()=>setSyncMsg("ok")).catch(()=>setSyncMsg("err"));}; window.__mlcPush=()=>{clearTimeout(pushT.current);pushT.current=setTimeout(push,1200);}; let firstSnap=true; const unsub=onSnapshot(ref,snap=>{ const d=snap.exists()?snap.data():null; const cloud=d&&d.data?d.data:null; const local=SYNC_DUMP(); const same=cloud&&JSON.stringify(cloud)===JSON.stringify(local); if(firstSnap){ firstSnap=false; if(!cloud||isEmpty(cloud)){push();return;} if(same){setSyncMsg("ok");return;} if(isEmpty(local)){SYNC_WRITE(cloud);location.reload();return;} push(); return; } if(!cloud||same){setSyncMsg("ok");return;} if(Number(d.ts||0)>LOCAL_TS()){SYNC_WRITE(cloud);location.reload();}else{push();} },()=>setSyncMsg("err")); return ()=>{if(typeof window!=="undefined")window.__mlcPush=null;try{unsub&&unsub();}catch{}}; },[syncUser]);
-  const doSignIn=()=>{ if(!_fbAuth||!_fbProvider)return; setSyncMsg("…"); const m=/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent); try{ if(m){signInWithRedirect(_fbAuth,_fbProvider);} else {signInWithPopup(_fbAuth,_fbProvider).catch(()=>setSyncMsg("err"));} }catch(e){setSyncMsg("err");} };
+  const authErr=(e)=>{const code=(e&&e.code)||"";const zh=l==="zh";if(code==="auth/email-already-in-use")return zh?"此 Email 已註冊，請改用「登入」。":"Email already registered — use Log in.";if(code==="auth/invalid-email")return zh?"Email 格式不正確。":"Invalid email.";if(code==="auth/weak-password")return zh?"密碼至少要 6 個字。":"Password needs 6+ characters.";if(code==="auth/invalid-credential"||code==="auth/wrong-password"||code==="auth/user-not-found")return zh?"Email 或密碼錯誤。":"Wrong email or password.";if(code==="auth/network-request-failed")return zh?"網路連線失敗。":"Network error.";return zh?"操作失敗，請再試一次。":"Something went wrong, try again.";};
+  const doEmailLogin=()=>{ if(!_fbAuth)return; const em=syncEmail.trim(),pw=syncPass; if(!em||!pw){setSyncMsg(l==="zh"?"請輸入 Email 和密碼。":"Enter email and password.");return;} setSyncMsg(l==="zh"?"登入中…":"Signing in…"); signInWithEmailAndPassword(_fbAuth,em,pw).then(()=>{setSyncMsg("ok");setSyncPass("");}).catch(e=>setSyncMsg(authErr(e))); };
+  const doEmailSignup=()=>{ if(!_fbAuth)return; const em=syncEmail.trim(),pw=syncPass; if(!em||pw.length<6){setSyncMsg(l==="zh"?"請輸入 Email 和至少 6 位密碼。":"Enter email and a 6+ char password.");return;} setSyncMsg(l==="zh"?"建立帳號中…":"Creating account…"); createUserWithEmailAndPassword(_fbAuth,em,pw).then(()=>{setSyncMsg("ok");setSyncPass("");}).catch(e=>setSyncMsg(authErr(e))); };
   const doSignOut=()=>{ if(!_fbAuth)return; try{signOut(_fbAuth);}catch(e){} };
   const friendMax=friendship.level===1?25:friendship.level===2?55:120;
   const friendBase=friendship.level===1?0:friendship.level===2?25:friendship.level===3?80:200;
@@ -888,14 +892,23 @@ export default function App(){
               <button onClick={()=>setShowSystem(false)} style={{background:"none",border:"none",cursor:"pointer",color:P.muted,fontSize:18}}>✕</button>
             </div>
             <p className="lbl" style={{marginBottom:7}}>{l==="zh"?"雲端同步":"Cloud Sync"}</p>
-            <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,lineHeight:1.6,marginBottom:8}}>{l==="zh"?"用 Google 登入，資料就會自動在你的裝置之間同步。":"Sign in with Google and your data syncs automatically across your devices."}</p>
+            <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,lineHeight:1.6,marginBottom:8}}>{l==="zh"?"用 Email + 密碼登入，資料就會自動在你的所有裝置之間同步。":"Sign in with email + password to sync your data across all your devices."}</p>
             {syncUser?(
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,marginBottom:18,background:P.paper,border:`1px solid ${P.border}`,borderRadius:10,padding:"9px 11px"}}>
                 <div style={{minWidth:0}}><p style={{fontSize:11,color:P.text,fontFamily:font.sans,fontWeight:600,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>✓ {syncUser.email||(l==="zh"?"已登入":"Signed in")}</p><p style={{fontSize:10,color:P.muted,fontFamily:font.sans}}>{l==="zh"?"同步已開啟":"Syncing is on"}</p></div>
                 <button className="btn-o" style={{fontSize:11,flexShrink:0}} onClick={doSignOut}>{l==="zh"?"登出":"Sign out"}</button>
               </div>
             ):(
-              <button className="btn" style={{width:"100%",marginBottom:18,display:"flex",alignItems:"center",justifyContent:"center",gap:8}} onClick={doSignIn}>{l==="zh"?"使用 Google 登入":"Sign in with Google"}</button>
+              <div style={{marginBottom:18}}>
+                <input type="email" autoCapitalize="none" autoCorrect="off" value={syncEmail} onChange={e=>setSyncEmail(e.target.value)} placeholder={l==="zh"?"電子郵件":"Email"} style={{width:"100%",border:`1px solid ${P.border}`,borderRadius:10,padding:"9px 11px",fontFamily:font.sans,fontSize:13,color:P.text,background:P.paper,outline:"none",boxSizing:"border-box",marginBottom:7}}/>
+                <input type="password" value={syncPass} onChange={e=>setSyncPass(e.target.value)} placeholder={l==="zh"?"密碼（至少 6 位）":"Password (6+ chars)"} style={{width:"100%",border:`1px solid ${P.border}`,borderRadius:10,padding:"9px 11px",fontFamily:font.sans,fontSize:13,color:P.text,background:P.paper,outline:"none",boxSizing:"border-box",marginBottom:8}}/>
+                <div style={{display:"flex",gap:7}}>
+                  <button className="btn" style={{flex:1,fontSize:13}} onClick={doEmailLogin}>{l==="zh"?"登入":"Log in"}</button>
+                  <button className="btn-o" style={{flex:1,fontSize:13}} onClick={doEmailSignup}>{l==="zh"?"建立帳號":"Sign up"}</button>
+                </div>
+                {syncMsg&&syncMsg!=="ok"&&<p style={{fontSize:11,color:syncMsg==="err"?"#C07060":P.muted,fontFamily:font.sans,marginTop:8}}>{syncMsg==="err"?(l==="zh"?"發生錯誤。":"Error."):syncMsg}</p>}
+                <p style={{fontSize:10.5,color:P.muted,fontFamily:font.sans,marginTop:8,lineHeight:1.6}}>{l==="zh"?"第一次用請按「建立帳號」；其他裝置用同一組 Email 和密碼按「登入」就會同步。":"First time? Tap Sign up. On your other devices, Log in with the same email & password to sync."}</p>
+              </div>
             )}
             <p className="lbl" style={{marginBottom:7}}>{t.backupTitle}</p>
             <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,lineHeight:1.6,marginBottom:8}}>{t.backupDesc}</p>
