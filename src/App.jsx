@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { getFirestore, doc, setDoc, onSnapshot } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyBTWsMPiwx14Akdv-1_aFotTCT0FIRvEU8",
@@ -652,6 +652,7 @@ export default function App(){
   const authErr=(e)=>{const code=(e&&e.code)||"";const zh=l==="zh";if(code==="auth/email-already-in-use")return zh?"此 Email 已註冊，請改用「登入」。":"Email already registered — use Log in.";if(code==="auth/invalid-email")return zh?"Email 格式不正確。":"Invalid email.";if(code==="auth/weak-password")return zh?"密碼至少要 6 個字。":"Password needs 6+ characters.";if(code==="auth/invalid-credential"||code==="auth/wrong-password"||code==="auth/user-not-found")return zh?"Email 或密碼錯誤。":"Wrong email or password.";if(code==="auth/network-request-failed")return zh?"網路連線失敗。":"Network error.";return zh?"操作失敗，請再試一次。":"Something went wrong, try again.";};
   const doEmailLogin=()=>{ if(!_fbAuth)return; const em=syncEmail.trim(),pw=syncPass; if(!em||!pw){setSyncMsg(l==="zh"?"請輸入 Email 和密碼。":"Enter email and password.");return;} setSyncMsg(l==="zh"?"登入中…":"Signing in…"); signInWithEmailAndPassword(_fbAuth,em,pw).then(()=>{setSyncMsg("ok");setSyncPass("");}).catch(e=>setSyncMsg(authErr(e))); };
   const doEmailSignup=()=>{ if(!_fbAuth)return; const em=syncEmail.trim(),pw=syncPass; if(!em||pw.length<6){setSyncMsg(l==="zh"?"請輸入 Email 和至少 6 位密碼。":"Enter email and a 6+ char password.");return;} setSyncMsg(l==="zh"?"建立帳號中…":"Creating account…"); createUserWithEmailAndPassword(_fbAuth,em,pw).then(()=>{setSyncMsg("ok");setSyncPass("");}).catch(e=>setSyncMsg(authErr(e))); };
+  const doPasswordReset=()=>{ if(!_fbAuth)return; const em=syncEmail.trim(); if(!em){setSyncMsg(l==="zh"?"請先輸入你的 Email。":"Enter your email first.");return;} setSyncMsg(l==="zh"?"寄送中…":"Sending…"); sendPasswordResetEmail(_fbAuth,em).then(()=>setSyncMsg(l==="zh"?"重設信已寄出，請到信箱收信（也看看垃圾信件匣）。":"Reset email sent — check your inbox (and spam).")).catch(e=>setSyncMsg(authErr(e))); };
   const doSignOut=()=>{ if(!_fbAuth)return; try{signOut(_fbAuth);}catch(e){} };
   const friendMax=friendship.level===1?25:friendship.level===2?55:120;
   const friendBase=friendship.level===1?0:friendship.level===2?25:friendship.level===3?80:200;
@@ -906,6 +907,7 @@ export default function App(){
                   <button className="btn" style={{flex:1,fontSize:13}} onClick={doEmailLogin}>{l==="zh"?"登入":"Log in"}</button>
                   <button className="btn-o" style={{flex:1,fontSize:13}} onClick={doEmailSignup}>{l==="zh"?"建立帳號":"Sign up"}</button>
                 </div>
+                <button onClick={doPasswordReset} style={{background:"none",border:"none",cursor:"pointer",color:accent,fontFamily:font.sans,fontSize:11,padding:"7px 0 0",textDecoration:"underline"}}>{l==="zh"?"忘記密碼?":"Forgot password?"}</button>
                 {syncMsg&&syncMsg!=="ok"&&<p style={{fontSize:11,color:syncMsg==="err"?"#C07060":P.muted,fontFamily:font.sans,marginTop:8}}>{syncMsg==="err"?(l==="zh"?"發生錯誤。":"Error."):syncMsg}</p>}
                 <p style={{fontSize:10.5,color:P.muted,fontFamily:font.sans,marginTop:8,lineHeight:1.6}}>{l==="zh"?"第一次用請按「建立帳號」；其他裝置用同一組 Email 和密碼按「登入」就會同步。":"First time? Tap Sign up. On your other devices, Log in with the same email & password to sync."}</p>
               </div>
