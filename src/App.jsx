@@ -913,13 +913,6 @@ export default function App(){
                 <p style={{fontSize:10.5,color:P.muted,fontFamily:font.sans,marginTop:8,lineHeight:1.6}}>{l==="zh"?"第一次用請按「建立帳號」；其他裝置用同一組 Email 和密碼按「登入」就會同步。":"First time? Tap Sign up. On your other devices, Log in with the same email & password to sync."}</p>
               </div>
             )}
-            <p className="lbl" style={{marginBottom:7}}>{t.backupTitle}</p>
-            <p style={{fontSize:11,color:P.muted,fontFamily:font.sans,lineHeight:1.6,marginBottom:8}}>{t.backupDesc}</p>
-            <textarea value={backupText} onChange={e=>setBackupText(e.target.value)} placeholder={t.backupPh} rows={3} style={{width:"100%",border:`1px solid ${P.border}`,borderRadius:10,padding:"8px 10px",fontFamily:font.sans,fontSize:11,color:P.sub,background:P.paper,outline:"none",resize:"none",wordBreak:"break-all",marginBottom:8}}/>
-            <div style={{display:"flex",gap:7,marginBottom:18}}>
-              <button className="btn-o" style={{flex:1,fontSize:12}} onClick={exportData}>{t.exportBtn}</button>
-              <button className="btn" style={{flex:1,fontSize:12}} onClick={importData}>{t.restoreBtn}</button>
-            </div>
             <button className="btn" style={{width:"100%",marginBottom:8}} onClick={()=>setShowSystem(false)}>{t.done}</button>
             <button className="reset-btn" onClick={()=>{setShowSystem(false);setTimeout(()=>setShowReset(true),150);}}>{t.resetBtn}</button>
           </div>
